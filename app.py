@@ -1002,4 +1002,6 @@ def acerca():
     <body>
         <div class="main-wrapper">
             <header class="header">
-                <div class """
+                <div class 
+                 """
+    return html
