@@ -19,7 +19,7 @@ COLOR_AZUL_OSCURO = "#0F1B33"
 
 COLOR_BLANCO = "#FFFFFF"
 COLOR_GRIS = "#F8F6F1"
-COLOR_GRIS_BORDE = "#E8DFC8"
+COLOR_GRIS_BORDE = "#C9A84C"
 
 # ---------- TEXTOS ----------
 NOMBRE_SITIO = "JUSDATA"
@@ -202,27 +202,28 @@ def generar_estilos():
         /* ========================================
            CUERPO
         ======================================== */
-        .body-wrapper {{
-            display: flex;
-            gap: 0;
-            background: {COLOR_GRIS};
-            min-height: 500px;
-        }}
+        .body-wrapper {{         display: flex;
+         gap: 0;
+         background: {COLOR_GRIS};
+         min-height: 500px;
+         align-items: stretch;
+}}
 
         /* ========================================
            BARRA LATERAL
         ======================================== */
         .sidebar {{
-            width: 240px;
-            min-width: 200px;
-            background: {COLOR_AZUL_OSCURO};
-            padding: 28px 18px;
-            margin: 20px 0 20px 20px;
-            border-radius: 16px;
-            height: fit-content;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
-            border: 1px solid rgba(201, 168, 76, 0.15);
-        }}
+               width: 250px;
+               min-width: 220px;
+               background: {COLOR_AZUL_OSCURO};
+               padding: 28px 20px;
+               margin: 0;
+               border-radius: 0;
+               height: 100%;
+               box-shadow: none;
+               border: none;
+               border-right: 3px solid {COLOR_DORADO};
+            }}
 
         .sidebar h3 {{
             color: {COLOR_DORADO};
@@ -778,7 +779,7 @@ def inicio():
                             <div class="form-row">
                                 <div class="form-group">
                                     <label for="nombre">Nombre completo <span class="required">*</span></label>
-                                    <input type="text" id="nombre" name="nombre" placeholder="Ej. Lius Torres" required>
+                                    <input type="text" id="nombre" name="nombre" placeholder="Ej. Luis Torres" required>
                                 </div>
                                 <div class="form-group">
                                     <label for="categoria">Categoría</label>
