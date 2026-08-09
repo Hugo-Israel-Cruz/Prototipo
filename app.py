@@ -25,40 +25,39 @@ def inicio():
 
             body {
                 font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-                background: #f8f6f1;
+                background: #c9a84c;
                 min-height: 100vh;
                 display: flex;
                 flex-direction: column;
                 align-items: center;
                 padding: 0;
                 margin: 0;
-                color: #1a2a3a;
+                color: #1a3a5c;
             }
 
             /* ========================================
-               BARRA SUPERIOR (header)
+               BARRA SUPERIOR (fondo dorado)
             ======================================== */
             .top-bar {
                 width: 100%;
-                background: #ffffff;
-                border-bottom: 2px solid #f0ebe0;
+                background: #b8943a;
                 padding: 0 40px;
                 display: flex;
                 justify-content: space-between;
                 align-items: center;
                 height: 72px;
-                box-shadow: 0 2px 8px rgba(26, 42, 58, 0.04);
+                border-bottom: 2px solid #a07d2e;
             }
 
             .logo {
                 font-size: 1.4rem;
                 font-weight: 700;
                 letter-spacing: -0.5px;
-                color: #1a3a5c;
+                color: #ffffff;
             }
 
             .logo span {
-                color: #c9a84c;
+                color: #1a3a5c;
             }
 
             .nav {
@@ -69,17 +68,17 @@ def inicio():
             }
 
             .nav a {
-                color: #4a5a6a;
+                color: #ffffff;
                 text-decoration: none;
-                transition: color 0.2s;
+                transition: all 0.2s;
                 padding: 4px 0;
                 border-bottom: 2px solid transparent;
             }
 
             .nav a:hover,
             .nav a.active {
+                border-bottom-color: #1a3a5c;
                 color: #1a3a5c;
-                border-bottom-color: #c9a84c;
             }
 
             /* ========================================
@@ -93,15 +92,15 @@ def inicio():
             }
 
             /* ========================================
-               TARJETA DE BIENVENIDA
+               TARJETA DE BIENVENIDA (fondo blanco)
             ======================================== */
             .welcome-card {
                 background: #ffffff;
                 border-radius: 16px;
                 padding: 40px 48px 32px;
                 margin-bottom: 32px;
-                box-shadow: 0 4px 20px rgba(26, 42, 58, 0.06);
-                border: 1px solid #f0ebe0;
+                box-shadow: 0 4px 24px rgba(0, 0, 0, 0.10);
+                border: 1px solid #d4c08a;
             }
 
             .welcome-card h1 {
@@ -117,20 +116,20 @@ def inicio():
             }
 
             .welcome-card p {
-                color: #6a7a8a;
+                color: #4a6a7a;
                 font-size: 1.05rem;
                 font-weight: 400;
             }
 
             /* ========================================
-               TARJETA DEL FORMULARIO
+               TARJETA DEL FORMULARIO (fondo blanco)
             ======================================== */
             .form-card {
                 background: #ffffff;
                 border-radius: 16px;
                 padding: 36px 40px 40px;
-                border: 1px solid #f0ebe0;
-                box-shadow: 0 4px 20px rgba(26, 42, 58, 0.06);
+                border: 1px solid #d4c08a;
+                box-shadow: 0 4px 24px rgba(0, 0, 0, 0.10);
             }
 
             .form-card h2 {
@@ -142,7 +141,7 @@ def inicio():
             }
 
             .form-card .subtitle {
-                color: #8a9aaa;
+                color: #5a7a8a;
                 font-size: 0.95rem;
                 margin-bottom: 28px;
             }
@@ -180,11 +179,11 @@ def inicio():
             .form-group select,
             .form-group textarea {
                 padding: 12px 16px;
-                border: 1.5px solid #e4ddd2;
+                border: 1.5px solid #d4c08a;
                 border-radius: 10px;
                 font-family: 'Inter', sans-serif;
                 font-size: 0.95rem;
-                background: #fcfbf9;
+                background: #fefcf7;
                 transition: border-color 0.25s, box-shadow 0.25s;
                 color: #1a2a3a;
             }
@@ -193,8 +192,8 @@ def inicio():
             .form-group select:focus,
             .form-group textarea:focus {
                 outline: none;
-                border-color: #c9a84c;
-                box-shadow: 0 0 0 4px rgba(201, 168, 76, 0.12);
+                border-color: #1a3a5c;
+                box-shadow: 0 0 0 4px rgba(26, 58, 92, 0.12);
                 background: #ffffff;
             }
 
@@ -203,6 +202,9 @@ def inicio():
                 resize: vertical;
             }
 
+            /* ========================================
+               BOTÓN DORADO
+            ======================================== */
             .btn-submit {
                 background: #c9a84c;
                 color: #ffffff;
@@ -220,7 +222,7 @@ def inicio():
             }
 
             .btn-submit:hover {
-                background: #b8973a;
+                background: #b8943a;
             }
 
             .btn-submit:active {
@@ -233,13 +235,13 @@ def inicio():
             .examples-section {
                 margin-top: 36px;
                 padding-top: 28px;
-                border-top: 1.5px solid #f0ebe0;
+                border-top: 1.5px solid #e8dfc8;
             }
 
             .examples-section h3 {
                 font-size: 0.95rem;
                 font-weight: 500;
-                color: #4a5a6a;
+                color: #1a3a5c;
                 margin-bottom: 14px;
                 letter-spacing: 0.2px;
             }
@@ -251,12 +253,12 @@ def inicio():
             }
 
             .example-item {
-                background: #f8f6f1;
-                border: 1.5px solid #f0ebe0;
+                background: #fefcf7;
+                border: 1.5px solid #d4c08a;
                 border-radius: 10px;
                 padding: 14px 16px;
                 font-size: 0.9rem;
-                color: #2a3a4a;
+                color: #1a3a5c;
                 cursor: pointer;
                 transition: all 0.2s;
                 text-align: center;
@@ -264,10 +266,10 @@ def inicio():
             }
 
             .example-item:hover {
-                border-color: #c9a84c;
-                background: #fcfbf9;
+                border-color: #1a3a5c;
+                background: #f8f2e6;
                 transform: translateY(-2px);
-                box-shadow: 0 4px 12px rgba(201, 168, 76, 0.15);
+                box-shadow: 0 4px 16px rgba(201, 168, 76, 0.25);
             }
 
             .example-item .category {
@@ -281,22 +283,25 @@ def inicio():
             }
 
             /* ========================================
-               PIE DE PÁGINA
+               PIE DE PÁGINA (fondo dorado)
             ======================================== */
             .footer {
                 width: 100%;
                 max-width: 1040px;
                 padding: 24px 40px 32px;
-                color: #9aaa9a;
+                color: #ffffff;
                 font-size: 0.85rem;
-                border-top: 1.5px solid #f0ebe0;
+                border-top: 2px solid #a07d2e;
                 margin-top: 20px;
                 text-align: center;
                 letter-spacing: 0.2px;
+                background: #b8943a;
+                border-radius: 0 0 16px 16px;
             }
 
             .footer span {
-                color: #c9a84c;
+                color: #1a3a5c;
+                font-weight: 600;
             }
 
             /* ========================================
@@ -306,6 +311,7 @@ def inicio():
                 .top-bar {
                     padding: 0 20px;
                     height: 64px;
+                    flex-wrap: wrap;
                 }
                 .nav {
                     gap: 20px;
@@ -353,7 +359,7 @@ def inicio():
         </style>
     </head>
     <body>
-        <!-- ===== BARRA SUPERIOR ===== -->
+        <!-- ===== BARRA SUPERIOR (DORADO) ===== -->
         <header class="top-bar">
             <div class="logo">Consulta<span>Rápida</span></div>
             <nav class="nav">
@@ -365,13 +371,13 @@ def inicio():
 
         <!-- ===== CONTENIDO ===== -->
         <main class="main-container">
-            <!-- Bienvenida -->
+            <!-- Bienvenida (fondo blanco) -->
             <div class="welcome-card">
                 <h1>Sistema de <span>consultas</span></h1>
                 <p>Realice una consulta y obtenga información precisa de nuestra base de conocimiento.</p>
             </div>
 
-            <!-- Formulario -->
+            <!-- Formulario (fondo blanco) -->
             <div class="form-card">
                 <h2>Nueva consulta</h2>
                 <p class="subtitle">Complete los campos para realizar su pregunta.</p>
@@ -427,13 +433,12 @@ def inicio():
             </div>
         </main>
 
-        <!-- ===== PIE ===== -->
+        <!-- ===== PIE (DORADO) ===== -->
         <footer class="footer">
             &copy; 2026 <span>ConsultaRápida</span> &middot; Sistema profesional de gestión de consultas
         </footer>
 
         <script>
-            // Pequeño detalle: al hacer clic en un ejemplo, enfoca el textarea
             document.querySelectorAll('.example-item').forEach(el => {
                 el.addEventListener('click', function() {
                     const textarea = document.getElementById('pregunta');
@@ -463,37 +468,36 @@ def consultas():
             * { margin: 0; padding: 0; box-sizing: border-box; }
             body {
                 font-family: 'Inter', -apple-system, sans-serif;
-                background: #f8f6f1;
+                background: #c9a84c;
                 min-height: 100vh;
                 display: flex;
                 flex-direction: column;
                 align-items: center;
-                color: #1a2a3a;
+                color: #1a3a5c;
             }
             .top-bar {
                 width: 100%;
-                background: #ffffff;
-                border-bottom: 2px solid #f0ebe0;
+                background: #b8943a;
                 padding: 0 40px;
                 display: flex;
                 justify-content: space-between;
                 align-items: center;
                 height: 72px;
-                box-shadow: 0 2px 8px rgba(26, 42, 58, 0.04);
+                border-bottom: 2px solid #a07d2e;
             }
-            .logo { font-size: 1.4rem; font-weight: 700; color: #1a3a5c; }
-            .logo span { color: #c9a84c; }
+            .logo { font-size: 1.4rem; font-weight: 700; color: #ffffff; }
+            .logo span { color: #1a3a5c; }
             .nav { display: flex; gap: 32px; font-weight: 500; font-size: 0.95rem; }
             .nav a {
-                color: #4a5a6a;
+                color: #ffffff;
                 text-decoration: none;
                 padding: 4px 0;
                 border-bottom: 2px solid transparent;
-                transition: color 0.2s;
+                transition: all 0.2s;
             }
             .nav a:hover, .nav a.active {
+                border-bottom-color: #1a3a5c;
                 color: #1a3a5c;
-                border-bottom-color: #c9a84c;
             }
             .main-container {
                 max-width: 1040px;
@@ -505,13 +509,13 @@ def consultas():
                 background: #ffffff;
                 border-radius: 16px;
                 padding: 40px 48px;
-                border: 1px solid #f0ebe0;
-                box-shadow: 0 4px 20px rgba(26, 42, 58, 0.06);
+                border: 1px solid #d4c08a;
+                box-shadow: 0 4px 24px rgba(0, 0, 0, 0.10);
                 text-align: center;
             }
-            .card .icon { font-size: 3rem; color: #c9a84c; margin-bottom: 12px; display: block; }
+            .card .icon { font-size: 2.8rem; color: #c9a84c; margin-bottom: 12px; display: block; }
             .card h2 { color: #1a3a5c; font-weight: 600; font-size: 1.4rem; margin-bottom: 6px; }
-            .card p { color: #7a8a9a; font-size: 1rem; }
+            .card p { color: #4a6a7a; font-size: 1rem; }
             .btn {
                 display: inline-block;
                 margin-top: 20px;
@@ -524,18 +528,20 @@ def consultas():
                 font-size: 0.95rem;
                 transition: background 0.25s;
             }
-            .btn:hover { background: #b8973a; }
+            .btn:hover { background: #b8943a; }
             .footer {
                 width: 100%;
                 max-width: 1040px;
                 padding: 24px 40px 32px;
-                color: #9aaa9a;
+                color: #ffffff;
                 font-size: 0.85rem;
-                border-top: 1.5px solid #f0ebe0;
+                border-top: 2px solid #a07d2e;
                 margin-top: 20px;
                 text-align: center;
+                background: #b8943a;
+                border-radius: 0 0 16px 16px;
             }
-            .footer span { color: #c9a84c; }
+            .footer span { color: #1a3a5c; font-weight: 600; }
             @media (max-width: 768px) {
                 .top-bar { padding: 0 20px; height: 64px; flex-wrap: wrap; }
                 .nav { gap: 20px; font-size: 0.85rem; }
@@ -591,37 +597,36 @@ def acerca():
             * { margin: 0; padding: 0; box-sizing: border-box; }
             body {
                 font-family: 'Inter', -apple-system, sans-serif;
-                background: #f8f6f1;
+                background: #c9a84c;
                 min-height: 100vh;
                 display: flex;
                 flex-direction: column;
                 align-items: center;
-                color: #1a2a3a;
+                color: #1a3a5c;
             }
             .top-bar {
                 width: 100%;
-                background: #ffffff;
-                border-bottom: 2px solid #f0ebe0;
+                background: #b8943a;
                 padding: 0 40px;
                 display: flex;
                 justify-content: space-between;
                 align-items: center;
                 height: 72px;
-                box-shadow: 0 2px 8px rgba(26, 42, 58, 0.04);
+                border-bottom: 2px solid #a07d2e;
             }
-            .logo { font-size: 1.4rem; font-weight: 700; color: #1a3a5c; }
-            .logo span { color: #c9a84c; }
+            .logo { font-size: 1.4rem; font-weight: 700; color: #ffffff; }
+            .logo span { color: #1a3a5c; }
             .nav { display: flex; gap: 32px; font-weight: 500; font-size: 0.95rem; }
             .nav a {
-                color: #4a5a6a;
+                color: #ffffff;
                 text-decoration: none;
                 padding: 4px 0;
                 border-bottom: 2px solid transparent;
-                transition: color 0.2s;
+                transition: all 0.2s;
             }
             .nav a:hover, .nav a.active {
+                border-bottom-color: #1a3a5c;
                 color: #1a3a5c;
-                border-bottom-color: #c9a84c;
             }
             .main-container {
                 max-width: 1040px;
@@ -633,14 +638,15 @@ def acerca():
                 background: #ffffff;
                 border-radius: 16px;
                 padding: 40px 48px;
-                border: 1px solid #f0ebe0;
-                box-shadow: 0 4px 20px rgba(26, 42, 58, 0.06);
+                border: 1px solid #d4c08a;
+                box-shadow: 0 4px 24px rgba(0, 0, 0, 0.10);
             }
             .card h2 { color: #1a3a5c; font-weight: 600; font-size: 1.3rem; margin-bottom: 12px; }
-            .card p { color: #4a5a6a; line-height: 1.7; margin-bottom: 12px; }
-            .card ul { padding-left: 22px; color: #4a5a6a; line-height: 1.8; }
+            .card p { color: #4a6a7a; line-height: 1.7; margin-bottom: 12px; }
+            .card ul { padding-left: 22px; color: #4a6a7a; line-height: 1.8; }
             .card ul li { margin-bottom: 4px; }
-            .card .gold { color: #c9a84c; font-weight: 500; }
+            .card .gold { color: #c9a84c; font-weight: 600; }
+            .card .blue { color: #1a3a5c; font-weight: 600; }
             .btn {
                 display: inline-block;
                 margin-top: 16px;
@@ -653,18 +659,20 @@ def acerca():
                 font-size: 0.95rem;
                 transition: background 0.25s;
             }
-            .btn:hover { background: #b8973a; }
+            .btn:hover { background: #b8943a; }
             .footer {
                 width: 100%;
                 max-width: 1040px;
                 padding: 24px 40px 32px;
-                color: #9aaa9a;
+                color: #ffffff;
                 font-size: 0.85rem;
-                border-top: 1.5px solid #f0ebe0;
+                border-top: 2px solid #a07d2e;
                 margin-top: 20px;
                 text-align: center;
+                background: #b8943a;
+                border-radius: 0 0 16px 16px;
             }
-            .footer span { color: #c9a84c; }
+            .footer span { color: #1a3a5c; font-weight: 600; }
             @media (max-width: 768px) {
                 .top-bar { padding: 0 20px; height: 64px; flex-wrap: wrap; }
                 .nav { gap: 20px; font-size: 0.85rem; }
@@ -689,7 +697,7 @@ def acerca():
 
         <main class="main-container">
             <div class="card">
-                <h2>Acerca de ConsultaRápida</h2>
+                <h2>Acerca de <span class="gold">ConsultaRápida</span></h2>
                 <p>
                     <span class="gold">ConsultaRápida</span> es un sistema profesional de gestión de consultas 
                     diseñado para facilitar el acceso a información estructurada y precisa.
@@ -705,9 +713,9 @@ def acerca():
 
                 <h2 style="margin-top: 24px;">Tecnologías</h2>
                 <ul>
-                    <li>Python &middot; Flask &middot; PostgreSQL</li>
+                    <li><span class="blue">Python</span> &middot; Flask &middot; PostgreSQL</li>
                     <li>HTML5 &middot; CSS3 &middot; Inter (tipografía)</li>
-                    <li>Render (alojamiento en la nube)</li>
+                    <li><span class="blue">Render</span> (alojamiento en la nube)</li>
                 </ul>
 
                 <a href="/" class="btn">Volver al inicio</a>
@@ -742,35 +750,34 @@ def enviar_consulta():
             * {{ margin: 0; padding: 0; box-sizing: border-box; }}
             body {{
                 font-family: 'Inter', -apple-system, sans-serif;
-                background: #f8f6f1;
+                background: #c9a84c;
                 min-height: 100vh;
                 display: flex;
                 flex-direction: column;
                 align-items: center;
-                color: #1a2a3a;
+                color: #1a3a5c;
             }}
             .top-bar {{
                 width: 100%;
-                background: #ffffff;
-                border-bottom: 2px solid #f0ebe0;
+                background: #b8943a;
                 padding: 0 40px;
                 display: flex;
                 justify-content: space-between;
                 align-items: center;
                 height: 72px;
-                box-shadow: 0 2px 8px rgba(26, 42, 58, 0.04);
+                border-bottom: 2px solid #a07d2e;
             }}
-            .logo {{ font-size: 1.4rem; font-weight: 700; color: #1a3a5c; }}
-            .logo span {{ color: #c9a84c; }}
+            .logo {{ font-size: 1.4rem; font-weight: 700; color: #ffffff; }}
+            .logo span {{ color: #1a3a5c; }}
             .nav {{ display: flex; gap: 32px; font-weight: 500; font-size: 0.95rem; }}
             .nav a {{
-                color: #4a5a6a;
+                color: #ffffff;
                 text-decoration: none;
                 padding: 4px 0;
                 border-bottom: 2px solid transparent;
-                transition: color 0.2s;
+                transition: all 0.2s;
             }}
-            .nav a:hover {{ color: #1a3a5c; border-bottom-color: #c9a84c; }}
+            .nav a:hover {{ border-bottom-color: #1a3a5c; color: #1a3a5c; }}
             .main-container {{
                 max-width: 1040px;
                 width: 100%;
@@ -781,22 +788,23 @@ def enviar_consulta():
                 background: #ffffff;
                 border-radius: 16px;
                 padding: 40px 48px;
-                border: 1px solid #f0ebe0;
-                box-shadow: 0 4px 20px rgba(26, 42, 58, 0.06);
+                border: 1px solid #d4c08a;
+                box-shadow: 0 4px 24px rgba(0, 0, 0, 0.10);
             }}
             .card .check {{ color: #c9a84c; font-size: 2.8rem; display: block; margin-bottom: 8px; }}
             .card h2 {{ color: #1a3a5c; font-weight: 600; font-size: 1.5rem; margin-bottom: 4px; }}
-            .card .sub {{ color: #7a8a9a; font-size: 1rem; margin-bottom: 20px; }}
+            .card .sub {{ color: #4a6a7a; font-size: 1rem; margin-bottom: 20px; }}
             .detail-box {{
-                background: #f8f6f1;
+                background: #f8f2e6;
                 border-radius: 12px;
                 padding: 20px 24px;
                 margin: 16px 0 20px;
                 text-align: left;
+                border: 1px solid #d4c08a;
             }}
-            .detail-box p {{ margin: 6px 0; color: #2a3a4a; font-size: 0.95rem; }}
+            .detail-box p {{ margin: 6px 0; color: #1a3a5c; font-size: 0.95rem; }}
             .detail-box strong {{ color: #1a3a5c; font-weight: 600; }}
-            .detail-box .gold-text {{ color: #c9a84c; font-weight: 500; }}
+            .detail-box .gold-text {{ color: #c9a84c; font-weight: 600; }}
             .btn {{
                 display: inline-block;
                 background: #c9a84c;
@@ -808,18 +816,20 @@ def enviar_consulta():
                 font-size: 0.95rem;
                 transition: background 0.25s;
             }}
-            .btn:hover {{ background: #b8973a; }}
+            .btn:hover {{ background: #b8943a; }}
             .footer {{
                 width: 100%;
                 max-width: 1040px;
                 padding: 24px 40px 32px;
-                color: #9aaa9a;
+                color: #ffffff;
                 font-size: 0.85rem;
-                border-top: 1.5px solid #f0ebe0;
+                border-top: 2px solid #a07d2e;
                 margin-top: 20px;
                 text-align: center;
+                background: #b8943a;
+                border-radius: 0 0 16px 16px;
             }}
-            .footer span {{ color: #c9a84c; }}
+            .footer span {{ color: #1a3a5c; font-weight: 600; }}
             @media (max-width: 768px) {{
                 .top-bar {{ padding: 0 20px; height: 64px; flex-wrap: wrap; }}
                 .nav {{ gap: 20px; font-size: 0.85rem; }}
@@ -855,7 +865,7 @@ def enviar_consulta():
                     <p><strong>Pregunta:</strong> {pregunta}</p>
                 </div>
 
-                <p style="color: #7a8a9a; margin-bottom: 16px; font-size: 0.95rem;">
+                <p style="color: #4a6a7a; margin-bottom: 16px; font-size: 0.95rem;">
                     En breve recibirá una respuesta a su consulta.
                 </p>
                 <a href="/" class="btn">Realizar otra consulta</a>
