@@ -3,28 +3,27 @@ from flask import Flask, request
 app = Flask(__name__)
 
 # ============================================================
-# 🎨 ZONA DE PERSONALIZACIÓN - EDITA AQUÍ LOS COLORES Y TEXTOS
+# 🎨 ZONA DE PERSONALIZACIÓN
 # ============================================================
 
-# ---------- COLORES PRINCIPALES ----------
-COLOR_DORADO = "#C9A84C"        # Dorado principal
-COLOR_DORADO_OSCURO = "#B8943A"  # Dorado más oscuro
-COLOR_DORADO_BORDE = "#A07D2E"   # Borde de elementos
-COLOR_DORADO_CLARO = "#D4C08A"   # Dorado claro para bordes suaves
-COLOR_FONDO_DORADO = "#F5EDD6"   # Fondo dorado muy claro para detalles
+# ---------- COLORES ----------
+COLOR_DORADO = "#C9A84C"
+COLOR_DORADO_OSCURO = "#B8943A"
+COLOR_DORADO_BORDE = "#A07D2E"
+COLOR_DORADO_CLARO = "#D4C08A"
+COLOR_FONDO_DORADO = "#F5EDD6"
 
-COLOR_AZUL = "#1A3A5C"          # Azul principal
-COLOR_AZUL_CLARO = "#2C5F8A"     # Azul más claro
-COLOR_AZUL_OSCURO = "#0F1B33"    # Azul muy oscuro
+COLOR_AZUL = "#1A3A5C"
+COLOR_AZUL_CLARO = "#2C5F8A"
+COLOR_AZUL_OSCURO = "#0F1B33"
 
-COLOR_BLANCO = "#FFFFFF"        # Blanco para fondos
-COLOR_GRIS = "#F8F6F1"          # Gris suave para fondos secundarios
-COLOR_GRIS_BORDE = "#E8DFC8"    # Gris para bordes
+COLOR_BLANCO = "#FFFFFF"
+COLOR_GRIS = "#F8F6F1"
+COLOR_GRIS_BORDE = "#E8DFC8"
 
-# ---------- TEXTOS EDITABLES ----------
+# ---------- TEXTOS ----------
 NOMBRE_SITIO = "ConsultaRápida"
 TEXTO_BIENVENIDA = "Sistema de consultas"
-TEXTO_SUBTITULO = "Realice una consulta y obtenga información precisa de nuestra base de conocimiento."
 TEXTO_FORMULARIO = "Nueva consulta"
 TEXTO_SUBFORMULARIO = "Complete los campos para realizar su pregunta."
 TEXTO_BOTON = "Enviar consulta"
@@ -32,7 +31,7 @@ TEXTO_EJEMPLOS = "Consultas de ejemplo"
 TEXTO_FOOTER = "Sistema profesional de gestión de consultas"
 TEXTO_AÑO = "2026"
 
-# ---------- NOMBRES DE PÁGINAS (Menú) ----------
+# ---------- NOMBRES DEL MENÚ ----------
 NOMBRE_INICIO = "Inicio"
 NOMBRE_CONSULTAS = "Mis consultas"
 NOMBRE_ACERCA = "Acerca de"
@@ -46,7 +45,7 @@ CATEGORIAS = [
     {"valor": "negocios", "texto": "Negocios"},
 ]
 
-# ---------- EJEMPLOS DE CONSULTAS ----------
+# ---------- EJEMPLOS ----------
 EJEMPLOS_CONSULTAS = [
     {"texto": "Fundamentos de programación orientada a objetos", "categoria": "Tecnología"},
     {"texto": "Cómo mejorar la productividad en el trabajo", "categoria": "Negocios"},
@@ -60,7 +59,7 @@ EJEMPLOS_CONSULTAS = [
 
 
 # ============================================================
-# FUNCIÓN PARA GENERAR ESTILOS CSS
+# ESTILOS CSS
 # ============================================================
 def generar_estilos():
     return f"""
@@ -76,42 +75,82 @@ def generar_estilos():
 
         body {{
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-            background: {COLOR_DORADO};
             min-height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
             padding: 30px 20px;
+            background: {COLOR_DORADO};
+            background-image: 
+                radial-gradient(ellipse at 10% 20%, rgba(255,255,255,0.08) 0%, transparent 60%),
+                radial-gradient(ellipse at 90% 80%, rgba(255,255,255,0.06) 0%, transparent 50%),
+                linear-gradient(135deg, {COLOR_DORADO} 0%, {COLOR_DORADO_OSCURO} 100%);
+            position: relative;
+        }}
+
+        /* Textura sutil de fondo */
+        body::before {{
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: 
+                repeating-linear-gradient(45deg, rgba(255,255,255,0.02) 0px, rgba(255,255,255,0.02) 2px, transparent 2px, transparent 6px);
+            pointer-events: none;
+            z-index: 0;
         }}
 
         /* ========================================
-           CONTENEDOR PRINCIPAL (blanco central)
-           TODO el contenido va dentro de este
+           CONTENEDOR PRINCIPAL
         ======================================== */
         .main-wrapper {{
             max-width: 1200px;
             width: 100%;
             background: {COLOR_BLANCO};
-            border-radius: 24px;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+            border-radius: 28px;
+            box-shadow: 
+                0 30px 80px rgba(0, 0, 0, 0.20),
+                0 10px 30px rgba(0, 0, 0, 0.08);
             overflow: hidden;
+            position: relative;
+            z-index: 1;
             border: 1px solid {COLOR_DORADO_CLARO};
         }}
 
         /* ========================================
-           ENCABEZADO (dentro del contenedor blanco)
+           ENCABEZADO
         ======================================== */
         .header {{
             background: {COLOR_AZUL};
-            padding: 16px 32px;
+            padding: 18px 40px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            border-bottom: 3px solid {COLOR_DORADO};
+            border-bottom: 4px solid {COLOR_DORADO};
+            position: relative;
+        }}
+
+        .header::after {{
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, {COLOR_DORADO}, {COLOR_DORADO_CLARO}, {COLOR_DORADO});
+            background-size: 200% 100%;
+            animation: shimmer 4s ease-in-out infinite;
+        }}
+
+        @keyframes shimmer {{
+            0%, 100% {{ background-position: -200% 0; }}
+            50% {{ background-position: 200% 0; }}
         }}
 
         .logo {{
-            font-size: 1.3rem;
+            font-size: 1.4rem;
             font-weight: 700;
             color: {COLOR_BLANCO};
             letter-spacing: -0.3px;
@@ -123,116 +162,144 @@ def generar_estilos():
 
         .nav {{
             display: flex;
-            gap: 28px;
+            gap: 32px;
             font-weight: 500;
             font-size: 0.9rem;
         }}
 
         .nav a {{
-            color: rgba(255, 255, 255, 0.8);
+            color: rgba(255, 255, 255, 0.75);
             text-decoration: none;
-            transition: color 0.2s;
-            padding: 4px 0;
-            border-bottom: 2px solid transparent;
+            transition: all 0.3s ease;
+            padding: 6px 0;
+            position: relative;
         }}
 
-        .nav a:hover,
+        .nav a::after {{
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: {COLOR_DORADO};
+            transition: width 0.3s ease;
+        }}
+
+        .nav a:hover {{
+            color: {COLOR_BLANCO};
+        }}
+
+        .nav a:hover::after,
+        .nav a.active::after {{
+            width: 100%;
+        }}
+
         .nav a.active {{
-            color: {COLOR_DORADO};
-            border-bottom-color: {COLOR_DORADO};
+            color: {COLOR_BLANCO};
         }}
 
         /* ========================================
-           CUERPO: SIDEBAR + CONTENIDO
+           CUERPO
         ======================================== */
         .body-wrapper {{
             display: flex;
             gap: 0;
             background: {COLOR_GRIS};
+            min-height: 500px;
         }}
 
         /* ========================================
-           BARRA LATERAL (azul oscuro)
+           BARRA LATERAL
         ======================================== */
         .sidebar {{
-            width: 220px;
+            width: 240px;
             min-width: 200px;
             background: {COLOR_AZUL_OSCURO};
-            padding: 24px 16px;
-            height: 100%;
+            padding: 28px 18px;
+            margin: 20px 0 20px 20px;
+            border-radius: 16px;
+            height: fit-content;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+            border: 1px solid rgba(201, 168, 76, 0.15);
         }}
 
         .sidebar h3 {{
             color: {COLOR_DORADO};
             font-size: 0.7rem;
             text-transform: uppercase;
-            letter-spacing: 1px;
+            letter-spacing: 1.5px;
             font-weight: 600;
-            margin-bottom: 16px;
-            padding-bottom: 10px;
-            border-bottom: 1.5px solid rgba(201, 168, 76, 0.25);
+            margin-bottom: 18px;
+            padding-bottom: 12px;
+            border-bottom: 1.5px solid rgba(201, 168, 76, 0.2);
         }}
 
         .sidebar .menu-item {{
             display: block;
-            color: rgba(255, 255, 255, 0.75);
+            color: rgba(255, 255, 255, 0.7);
             text-decoration: none;
-            padding: 10px 14px;
+            padding: 10px 16px;
             border-radius: 10px;
             font-size: 0.88rem;
             font-weight: 450;
-            transition: all 0.2s;
-            margin-bottom: 4px;
+            transition: all 0.25s ease;
+            margin-bottom: 3px;
         }}
 
         .sidebar .menu-item:hover {{
             background: rgba(201, 168, 76, 0.12);
             color: {COLOR_DORADO};
+            transform: translateX(4px);
         }}
 
         .sidebar .menu-item.active {{
             background: {COLOR_DORADO};
             color: {COLOR_AZUL_OSCURO};
             font-weight: 600;
+            box-shadow: 0 4px 16px rgba(201, 168, 76, 0.3);
         }}
 
         .sidebar .menu-item .icon {{
-            margin-right: 10px;
+            margin-right: 12px;
             font-size: 1rem;
         }}
 
         /* ========================================
-           CONTENIDO PRINCIPAL
+           CONTENIDO
         ======================================== */
         .content {{
             flex: 1;
-            padding: 28px 32px 32px;
-            background: {COLOR_BLANCO};
+            padding: 28px 32px 32px 28px;
+            background: {COLOR_GRIS};
         }}
 
         /* ========================================
            BARRA DE BÚSQUEDA
         ======================================== */
         .search-bar {{
-            background: {COLOR_GRIS};
-            border-radius: 12px;
-            padding: 6px 6px 6px 18px;
-            border: 1.5px solid {COLOR_DORADO_CLARO};
+            background: {COLOR_BLANCO};
+            border-radius: 14px;
+            padding: 4px 4px 4px 20px;
+            border: 2px solid {COLOR_DORADO_CLARO};
             display: flex;
             align-items: center;
             gap: 10px;
             margin-bottom: 24px;
-            transition: border-color 0.2s;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.04);
         }}
 
         .search-bar:focus-within {{
             border-color: {COLOR_DORADO};
+            box-shadow: 0 4px 20px rgba(201, 168, 76, 0.15);
+            transform: translateY(-1px);
         }}
 
         .search-bar input {{
             flex: 1;
             border: none;
-            padding: 11px 0;
+            padding: 12px 0;
             font-size: 0.9rem;
             font-family: 'Inter', sans-serif;
             color: {COLOR_AZUL};
@@ -248,17 +315,19 @@ def generar_estilos():
             background: {COLOR_DORADO};
             color: {COLOR_BLANCO};
             border: none;
-            padding: 10px 22px;
-            border-radius: 10px;
+            padding: 11px 28px;
+            border-radius: 12px;
             font-weight: 600;
             cursor: pointer;
-            transition: background 0.25s;
+            transition: all 0.3s ease;
             font-family: 'Inter', sans-serif;
             font-size: 0.85rem;
         }}
 
         .search-bar .btn-search:hover {{
             background: {COLOR_DORADO_OSCURO};
+            transform: scale(1.02);
+            box-shadow: 0 4px 16px rgba(201, 168, 76, 0.3);
         }}
 
         /* ========================================
@@ -267,25 +336,28 @@ def generar_estilos():
         .stats-grid {{
             display: grid;
             grid-template-columns: repeat(4, 1fr);
-            gap: 14px;
+            gap: 16px;
             margin-bottom: 28px;
         }}
 
         .stat-card {{
-            background: {COLOR_GRIS};
-            border-radius: 12px;
-            padding: 18px 14px;
+            background: {COLOR_BLANCO};
+            border-radius: 14px;
+            padding: 20px 16px;
             text-align: center;
             border: 1px solid {COLOR_DORADO_CLARO};
-            transition: transform 0.2s;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.04);
         }}
 
         .stat-card:hover {{
-            transform: translateY(-3px);
+            transform: translateY(-4px);
+            box-shadow: 0 8px 30px rgba(201, 168, 76, 0.15);
+            border-color: {COLOR_DORADO};
         }}
 
         .stat-card .numero {{
-            font-size: 1.8rem;
+            font-size: 2rem;
             font-weight: 700;
             color: {COLOR_DORADO};
             display: block;
@@ -293,34 +365,46 @@ def generar_estilos():
         }}
 
         .stat-card .label {{
-            font-size: 0.78rem;
+            font-size: 0.8rem;
             color: {COLOR_AZUL};
             font-weight: 500;
-            margin-top: 2px;
+            margin-top: 4px;
         }}
 
         /* ========================================
-           TARJETA DE CONTENIDO (formulario)
+           TARJETA DE CONTENIDO
         ======================================== */
         .content-card {{
-            background: {COLOR_GRIS};
-            border-radius: 14px;
-            padding: 24px 28px 28px;
+            background: {COLOR_BLANCO};
+            border-radius: 16px;
+            padding: 28px 32px 32px;
             border: 1px solid {COLOR_DORADO_CLARO};
+            box-shadow: 0 2px 16px rgba(0, 0, 0, 0.04);
         }}
 
         .content-card h2 {{
-            font-size: 1.15rem;
+            font-size: 1.2rem;
             font-weight: 600;
             color: {COLOR_AZUL};
             margin-bottom: 2px;
             letter-spacing: -0.3px;
         }}
 
+        .content-card h2::after {{
+            content: '';
+            display: block;
+            width: 40px;
+            height: 3px;
+            background: {COLOR_DORADO};
+            margin-top: 6px;
+            border-radius: 4px;
+        }}
+
         .content-card .sub {{
             color: #6a7a8a;
             font-size: 0.9rem;
-            margin-bottom: 18px;
+            margin-bottom: 20px;
+            margin-top: 6px;
         }}
 
         /* ========================================
@@ -329,14 +413,14 @@ def generar_estilos():
         .form-row {{
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 16px;
-            margin-bottom: 14px;
+            gap: 18px;
+            margin-bottom: 16px;
         }}
 
         .form-group {{
             display: flex;
             flex-direction: column;
-            gap: 4px;
+            gap: 5px;
         }}
 
         .form-group.full {{
@@ -357,13 +441,13 @@ def generar_estilos():
         .form-group input,
         .form-group select,
         .form-group textarea {{
-            padding: 10px 14px;
-            border: 1.5px solid {COLOR_DORADO_CLARO};
-            border-radius: 10px;
+            padding: 11px 16px;
+            border: 2px solid {COLOR_GRIS_BORDE};
+            border-radius: 12px;
             font-family: 'Inter', sans-serif;
             font-size: 0.9rem;
             background: {COLOR_BLANCO};
-            transition: border-color 0.25s, box-shadow 0.25s;
+            transition: all 0.3s ease;
             color: {COLOR_AZUL};
         }}
 
@@ -373,10 +457,11 @@ def generar_estilos():
             outline: none;
             border-color: {COLOR_DORADO};
             box-shadow: 0 0 0 4px rgba(201, 168, 76, 0.12);
+            transform: translateY(-1px);
         }}
 
         .form-group textarea {{
-            min-height: 85px;
+            min-height: 90px;
             resize: vertical;
         }}
 
@@ -384,18 +469,21 @@ def generar_estilos():
             background: {COLOR_DORADO};
             color: {COLOR_BLANCO};
             border: none;
-            padding: 12px 28px;
+            padding: 13px 32px;
             font-size: 0.95rem;
             font-weight: 600;
-            border-radius: 10px;
+            border-radius: 12px;
             cursor: pointer;
-            transition: background 0.25s, transform 0.15s;
+            transition: all 0.3s ease;
             width: 100%;
             font-family: 'Inter', sans-serif;
+            letter-spacing: 0.3px;
         }}
 
         .btn-submit:hover {{
             background: {COLOR_DORADO_OSCURO};
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(201, 168, 76, 0.35);
         }}
 
         /* ========================================
@@ -403,20 +491,20 @@ def generar_estilos():
         ======================================== */
         .examples-grid {{
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-            gap: 10px;
-            margin-top: 10px;
+            grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+            gap: 12px;
+            margin-top: 12px;
         }}
 
         .example-item {{
-            background: {COLOR_BLANCO};
-            border: 1.5px solid {COLOR_DORADO_CLARO};
-            border-radius: 10px;
-            padding: 12px 14px;
+            background: {COLOR_GRIS};
+            border: 2px solid {COLOR_GRIS_BORDE};
+            border-radius: 12px;
+            padding: 14px 16px;
             font-size: 0.82rem;
             color: {COLOR_AZUL};
             cursor: pointer;
-            transition: all 0.2s;
+            transition: all 0.3s ease;
             text-align: center;
             font-weight: 450;
         }}
@@ -424,18 +512,18 @@ def generar_estilos():
         .example-item:hover {{
             border-color: {COLOR_DORADO};
             background: {COLOR_FONDO_DORADO};
-            transform: translateY(-2px);
-            box-shadow: 0 4px 16px rgba(201, 168, 76, 0.2);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(201, 168, 76, 0.2);
         }}
 
         .example-item .cat {{
             display: block;
             font-size: 0.6rem;
-            font-weight: 500;
+            font-weight: 600;
             text-transform: uppercase;
             letter-spacing: 0.5px;
             color: {COLOR_DORADO};
-            margin-top: 4px;
+            margin-top: 5px;
         }}
 
         /* ========================================
@@ -443,20 +531,20 @@ def generar_estilos():
         ======================================== */
         .separator {{
             border: none;
-            border-top: 1.5px solid {COLOR_DORADO_CLARO};
-            margin: 22px 0 16px 0;
+            border-top: 2px solid {COLOR_GRIS_BORDE};
+            margin: 22px 0 18px 0;
         }}
 
         /* ========================================
-           PIE DE PÁGINA (dentro del contenedor blanco)
+           PIE DE PÁGINA
         ======================================== */
         .footer {{
             background: {COLOR_AZUL_OSCURO};
-            padding: 16px 32px;
+            padding: 18px 40px;
             text-align: center;
-            color: rgba(255, 255, 255, 0.7);
+            color: rgba(255, 255, 255, 0.6);
             font-size: 0.8rem;
-            border-top: 2px solid {COLOR_DORADO};
+            border-top: 3px solid {COLOR_DORADO};
         }}
 
         .footer span {{
@@ -480,13 +568,13 @@ def generar_estilos():
 
             .header {{
                 flex-direction: column;
-                padding: 14px 20px;
-                gap: 8px;
+                padding: 16px 24px;
+                gap: 10px;
                 text-align: center;
             }}
 
             .nav {{
-                gap: 18px;
+                gap: 20px;
                 font-size: 0.85rem;
                 flex-wrap: wrap;
                 justify-content: center;
@@ -499,19 +587,20 @@ def generar_estilos():
             .sidebar {{
                 width: 100%;
                 min-width: unset;
+                margin: 16px 16px 0 16px;
+                padding: 18px 16px;
                 display: flex;
                 flex-wrap: wrap;
                 gap: 4px;
-                padding: 14px 18px;
             }}
 
             .sidebar h3 {{
                 width: 100%;
-                margin-bottom: 6px;
+                margin-bottom: 8px;
             }}
 
             .sidebar .menu-item {{
-                padding: 7px 14px;
+                padding: 8px 14px;
                 font-size: 0.82rem;
                 margin-bottom: 0;
             }}
@@ -522,31 +611,31 @@ def generar_estilos():
 
             .form-row {{
                 grid-template-columns: 1fr;
-                gap: 12px;
+                gap: 14px;
             }}
 
             .stats-grid {{
                 grid-template-columns: 1fr 1fr;
-                gap: 10px;
+                gap: 12px;
             }}
 
             .stat-card .numero {{
-                font-size: 1.5rem;
+                font-size: 1.6rem;
             }}
 
             .content-card {{
-                padding: 18px 16px 20px;
+                padding: 20px 18px 24px;
             }}
 
             .search-bar {{
                 flex-wrap: wrap;
-                padding: 10px 12px;
-                gap: 8px;
+                padding: 12px 16px;
+                gap: 10px;
             }}
 
             .search-bar .btn-search {{
                 width: 100%;
-                padding: 10px;
+                padding: 11px;
             }}
 
             .examples-grid {{
@@ -554,28 +643,28 @@ def generar_estilos():
             }}
 
             .footer {{
-                padding: 14px 20px;
+                padding: 16px 24px;
                 font-size: 0.75rem;
             }}
         }}
 
         @media (max-width: 480px) {{
             .nav {{
-                gap: 12px;
+                gap: 14px;
                 font-size: 0.78rem;
             }}
 
             .stats-grid {{
                 grid-template-columns: 1fr 1fr;
-                gap: 8px;
+                gap: 10px;
             }}
 
             .stat-card {{
-                padding: 12px 8px;
+                padding: 14px 10px;
             }}
 
             .stat-card .numero {{
-                font-size: 1.3rem;
+                font-size: 1.4rem;
             }}
 
             .examples-grid {{
@@ -584,6 +673,11 @@ def generar_estilos():
 
             .logo {{
                 font-size: 1.1rem;
+            }}
+
+            .sidebar {{
+                margin: 12px 12px 0 12px;
+                padding: 14px 12px;
             }}
         }}
     </style>
@@ -620,15 +714,11 @@ def inicio():
     </head>
     <body>
 
-        <!-- ========================================
-             CONTENEDOR BLANCO CENTRAL
-             TODO EL CONTENIDO DENTRO DE ÉL
-        ======================================== -->
         <div class="main-wrapper">
 
             <!-- ENCABEZADO -->
             <header class="header">
-                <div class="logo">{NOMBRE_SITIO} <span>|</span> {TEXTO_BIENVENIDA}</div>
+                <div class="logo">{NOMBRE_SITIO} <span>✦</span> {TEXTO_BIENVENIDA}</div>
                 <nav class="nav">
                     <a href="/" class="active">{NOMBRE_INICIO}</a>
                     <a href="/consultas">{NOMBRE_CONSULTAS}</a>
@@ -636,24 +726,24 @@ def inicio():
                 </nav>
             </header>
 
-            <!-- CUERPO: SIDEBAR + CONTENIDO -->
+            <!-- CUERPO -->
             <div class="body-wrapper">
 
                 <!-- BARRA LATERAL -->
                 <aside class="sidebar">
-                    <h3>Menú</h3>
-                    <a href="/" class="menu-item active"><span class="icon">🏠</span> {NOMBRE_INICIO}</a>
-                    <a href="/consultas" class="menu-item"><span class="icon">📋</span> {NOMBRE_CONSULTAS}</a>
-                    <a href="/acerca" class="menu-item"><span class="icon">ℹ️</span> {NOMBRE_ACERCA}</a>
-                    <a href="/" class="menu-item"><span class="icon">➕</span> Nueva consulta</a>
-                    <a href="/" class="menu-item"><span class="icon">📊</span> Estadísticas</a>
-                    <a href="/" class="menu-item"><span class="icon">⚙️</span> Configuración</a>
+                    <h3>Menú principal</h3>
+                    <a href="/" class="menu-item active"><span class="icon">◈</span> {NOMBRE_INICIO}</a>
+                    <a href="/consultas" class="menu-item"><span class="icon">◈</span> {NOMBRE_CONSULTAS}</a>
+                    <a href="/acerca" class="menu-item"><span class="icon">◈</span> {NOMBRE_ACERCA}</a>
+                    <a href="#" class="menu-item" onclick="alert('Función en desarrollo')"><span class="icon">◈</span> Nueva consulta</a>
+                    <a href="#" class="menu-item" onclick="alert('Función en desarrollo')"><span class="icon">◈</span> Estadísticas</a>
+                    <a href="#" class="menu-item" onclick="alert('Función en desarrollo')"><span class="icon">◈</span> Configuración</a>
                 </aside>
 
-                <!-- CONTENIDO PRINCIPAL -->
+                <!-- CONTENIDO -->
                 <main class="content">
 
-                    <!-- BARRA DE BÚSQUEDA -->
+                    <!-- BÚSQUEDA -->
                     <div class="search-bar">
                         <input type="text" placeholder="Buscar consultas, temas o palabras clave..." id="buscar">
                         <button class="btn-search" onclick="alert('Función de búsqueda en desarrollo')">Buscar</button>
@@ -708,7 +798,7 @@ def inicio():
 
                         <!-- EJEMPLOS -->
                         <hr class="separator">
-                        <h3 style="font-size:0.85rem; font-weight:500; color:{COLOR_AZUL}; margin-bottom:8px;">{TEXTO_EJEMPLOS}</h3>
+                        <h3 style="font-size:0.85rem; font-weight:600; color:{COLOR_AZUL}; margin-bottom:8px;">{TEXTO_EJEMPLOS}</h3>
                         <div class="examples-grid">
                             {ejemplos_html}
                         </div>
@@ -723,7 +813,6 @@ def inicio():
             </footer>
 
         </div>
-        <!-- FIN CONTENEDOR BLANCO CENTRAL -->
 
         <script>
             document.querySelectorAll('.example-item').forEach(el => {{
@@ -757,30 +846,48 @@ def consultas():
         <style>
             .empty-state {{
                 text-align: center;
-                padding: 30px 10px;
+                padding: 40px 20px;
             }}
-            .empty-state .icon {{ font-size: 2.8rem; color: {COLOR_DORADO}; display: block; margin-bottom: 10px; }}
-            .empty-state h2 {{ color: {COLOR_AZUL}; font-weight: 600; font-size: 1.3rem; margin-bottom: 4px; }}
-            .empty-state p {{ color: #6a7a8a; font-size: 0.95rem; }}
+            .empty-state .icon {{
+                font-size: 3rem;
+                color: {COLOR_DORADO};
+                display: block;
+                margin-bottom: 12px;
+                opacity: 0.6;
+            }}
+            .empty-state h2 {{
+                color: {COLOR_AZUL};
+                font-weight: 600;
+                font-size: 1.3rem;
+                margin-bottom: 6px;
+            }}
+            .empty-state p {{
+                color: #6a7a8a;
+                font-size: 0.95rem;
+            }}
             .btn {{
                 display: inline-block;
-                margin-top: 16px;
+                margin-top: 18px;
                 background: {COLOR_DORADO};
                 color: {COLOR_BLANCO};
-                padding: 11px 28px;
-                border-radius: 10px;
+                padding: 12px 32px;
+                border-radius: 12px;
                 text-decoration: none;
                 font-weight: 600;
                 font-size: 0.9rem;
-                transition: background 0.25s;
+                transition: all 0.3s ease;
             }}
-            .btn:hover {{ background: {COLOR_DORADO_OSCURO}; }}
+            .btn:hover {{
+                background: {COLOR_DORADO_OSCURO};
+                transform: translateY(-2px);
+                box-shadow: 0 8px 30px rgba(201, 168, 76, 0.3);
+            }}
         </style>
     </head>
     <body>
         <div class="main-wrapper">
             <header class="header">
-                <div class="logo">{NOMBRE_SITIO} <span>|</span> {TEXTO_BIENVENIDA}</div>
+                <div class="logo">{NOMBRE_SITIO} <span>✦</span> {TEXTO_BIENVENIDA}</div>
                 <nav class="nav">
                     <a href="/">{NOMBRE_INICIO}</a>
                     <a href="/consultas" class="active">{NOMBRE_CONSULTAS}</a>
@@ -790,18 +897,18 @@ def consultas():
 
             <div class="body-wrapper">
                 <aside class="sidebar">
-                    <h3>Menú</h3>
-                    <a href="/" class="menu-item"><span class="icon">🏠</span> {NOMBRE_INICIO}</a>
-                    <a href="/consultas" class="menu-item active"><span class="icon">📋</span> {NOMBRE_CONSULTAS}</a>
-                    <a href="/acerca" class="menu-item"><span class="icon">ℹ️</span> {NOMBRE_ACERCA}</a>
-                    <a href="/" class="menu-item"><span class="icon">➕</span> Nueva consulta</a>
-                    <a href="/" class="menu-item"><span class="icon">📊</span> Estadísticas</a>
-                    <a href="/" class="menu-item"><span class="icon">⚙️</span> Configuración</a>
+                    <h3>Menú principal</h3>
+                    <a href="/" class="menu-item"><span class="icon">◈</span> {NOMBRE_INICIO}</a>
+                    <a href="/consultas" class="menu-item active"><span class="icon">◈</span> {NOMBRE_CONSULTAS}</a>
+                    <a href="/acerca" class="menu-item"><span class="icon">◈</span> {NOMBRE_ACERCA}</a>
+                    <a href="#" class="menu-item" onclick="alert('Función en desarrollo')"><span class="icon">◈</span> Nueva consulta</a>
+                    <a href="#" class="menu-item" onclick="alert('Función en desarrollo')"><span class="icon">◈</span> Estadísticas</a>
+                    <a href="#" class="menu-item" onclick="alert('Función en desarrollo')"><span class="icon">◈</span> Configuración</a>
                 </aside>
 
                 <main class="content">
                     <div class="content-card empty-state">
-                        <span class="icon">📋</span>
+                        <span class="icon">◈</span>
                         <h2>Aún no hay consultas</h2>
                         <p>Realice su primera consulta desde la página de inicio.</p>
                         <a href="/" class="btn">Ir al inicio</a>
@@ -834,117 +941,64 @@ def acerca():
         <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
         {generar_estilos()}
         <style>
-            .about-content h2 {{ color: {COLOR_AZUL}; font-weight: 600; font-size: 1.2rem; margin-bottom: 8px; margin-top: 16px; }}
-            .about-content p {{ color: #4a5a6a; line-height: 1.7; margin-bottom: 8px; font-size: 0.95rem; }}
-            .about-content ul {{ padding-left: 22px; color: #4a5a6a; line-height: 1.8; font-size: 0.95rem; }}
-            .about-content ul li {{ margin-bottom: 3px; }}
-            .about-content .gold {{ color: {COLOR_DORADO}; font-weight: 600; }}
+            .about-content h2 {{
+                color: {COLOR_AZUL};
+                font-weight: 600;
+                font-size: 1.2rem;
+                margin-bottom: 8px;
+                margin-top: 18px;
+            }}
+            .about-content h2:first-of-type {{
+                margin-top: 0;
+            }}
+            .about-content h2::after {{
+                content: '';
+                display: block;
+                width: 30px;
+                height: 3px;
+                background: {COLOR_DORADO};
+                margin-top: 4px;
+                border-radius: 4px;
+            }}
+            .about-content p {{
+                color: #4a5a6a;
+                line-height: 1.7;
+                margin-bottom: 8px;
+                font-size: 0.95rem;
+            }}
+            .about-content ul {{
+                padding-left: 22px;
+                color: #4a5a6a;
+                line-height: 1.8;
+                font-size: 0.95rem;
+            }}
+            .about-content ul li {{
+                margin-bottom: 4px;
+            }}
+            .about-content .gold {{
+                color: {COLOR_DORADO};
+                font-weight: 600;
+            }}
             .btn {{
                 display: inline-block;
-                margin-top: 12px;
+                margin-top: 16px;
                 background: {COLOR_DORADO};
                 color: {COLOR_BLANCO};
-                padding: 11px 28px;
-                border-radius: 10px;
+                padding: 12px 32px;
+                border-radius: 12px;
                 text-decoration: none;
                 font-weight: 600;
                 font-size: 0.9rem;
-                transition: background 0.25s;
+                transition: all 0.3s ease;
             }}
-            .btn:hover {{ background: {COLOR_DORADO_OSCURO}; }}
+            .btn:hover {{
+                background: {COLOR_DORADO_OSCURO};
+                transform: translateY(-2px);
+                box-shadow: 0 8px 30px rgba(201, 168, 76, 0.3);
+            }}
         </style>
     </head>
     <body>
         <div class="main-wrapper">
             <header class="header">
-                <div class="logo">{NOMBRE_SITIO} <span>|</span> {TEXTO_BIENVENIDA}</div>
-                <nav class="nav">
-                    <a href="/">{NOMBRE_INICIO}</a>
-                    <a href="/consultas">{NOMBRE_CONSULTAS}</a>
-                    <a href="/acerca" class="active">{NOMBRE_ACERCA}</a>
-                </nav>
-            </header>
-
-            <div class="body-wrapper">
-                <aside class="sidebar">
-                    <h3>Menú</h3>
-                    <a href="/" class="menu-item"><span class="icon">🏠</span> {NOMBRE_INICIO}</a>
-                    <a href="/consultas" class="menu-item"><span class="icon">📋</span> {NOMBRE_CONSULTAS}</a>
-                    <a href="/acerca" class="menu-item active"><span class="icon">ℹ️</span> {NOMBRE_ACERCA}</a>
-                    <a href="/" class="menu-item"><span class="icon">➕</span> Nueva consulta</a>
-                    <a href="/" class="menu-item"><span class="icon">📊</span> Estadísticas</a>
-                    <a href="/" class="menu-item"><span class="icon">⚙️</span> Configuración</a>
-                </aside>
-
-                <main class="content">
-                    <div class="content-card about-content">
-                        <h2>Acerca de <span class="gold">{NOMBRE_SITIO}</span></h2>
-                        <p>
-                            <span class="gold">{NOMBRE_SITIO}</span> es un sistema profesional de gestión de consultas 
-                            diseñado para facilitar el acceso a información estructurada y precisa.
-                        </p>
-
-                        <h2>Características</h2>
-                        <ul>
-                            <li>Formulario de consultas con categorización</li>
-                            <li>Almacenamiento seguro en base de datos PostgreSQL</li>
-                            <li>Interfaz limpia y profesional</li>
-                            <li>Diseño responsive para todos los dispositivos</li>
-                        </ul>
-
-                        <h2>Tecnologías</h2>
-                        <ul>
-                            <li>Python &middot; Flask &middot; PostgreSQL</li>
-                            <li>HTML5 &middot; CSS3 &middot; Inter (tipografía)</li>
-                            <li>Render (alojamiento en la nube)</li>
-                        </ul>
-
-                        <a href="/" class="btn">Volver al inicio</a>
-                    </div>
-                </main>
-            </div>
-
-            <footer class="footer">
-                &copy; {TEXTO_AÑO} <span>{NOMBRE_SITIO}</span> &middot; {TEXTO_FOOTER}
-            </footer>
-        </div>
-    </body>
-    </html>
-    """
-    return html
-
-
-# ============================================================
-# RUTA PARA RECIBIR EL FORMULARIO
-# ============================================================
-@app.route('/enviar-consulta', methods=['POST'])
-def enviar_consulta():
-    nombre = request.form.get('nombre')
-    categoria = request.form.get('categoria')
-    pregunta = request.form.get('pregunta')
-
-    nombre_categoria = categoria
-    for cat in CATEGORIAS:
-        if cat["valor"] == categoria:
-            nombre_categoria = cat["texto"]
-            break
-
-    html = f"""
-    <!DOCTYPE html>
-    <html>
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Consulta enviada - {NOMBRE_SITIO}</title>
-        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-        {generar_estilos()}
-        <style>
-            .detail-box {{
-                background: {COLOR_GRIS};
-                border-radius: 12px;
-                padding: 18px 22px;
-                margin: 14px 0 18px;
-                text-align: left;
-                border: 1px solid {COLOR_DORADO_CLARO};
-            }}
-            .detail-box p {{ margin: 
+                <div class
