@@ -11,7 +11,7 @@ COLOR_DORADO = "#C9A84C"
 COLOR_DORADO_OSCURO = "#B8943A"
 COLOR_DORADO_BORDE = "#A07D2E"
 COLOR_DORADO_CLARO = "#D4C08A"
-COLOR_FONDO_DORADO = "#F5EDD6"
+COLOR_FONDO_DORADO = "#FFFFFF"
 
 COLOR_AZUL = "#1A3A5C"
 COLOR_AZUL_CLARO = "#2C5F8A"
@@ -22,7 +22,7 @@ COLOR_GRIS = "#F8F6F1"
 COLOR_GRIS_BORDE = "#E8DFC8"
 
 # ---------- TEXTOS ----------
-NOMBRE_SITIO = "ConsultaRápida"
+NOMBRE_SITIO = "JUSDATA"
 TEXTO_BIENVENIDA = "Sistema de consultas"
 TEXTO_FORMULARIO = "Nueva consulta"
 TEXTO_SUBFORMULARIO = "Complete los campos para realizar su pregunta."
@@ -778,7 +778,7 @@ def inicio():
                             <div class="form-row">
                                 <div class="form-group">
                                     <label for="nombre">Nombre completo <span class="required">*</span></label>
-                                    <input type="text" id="nombre" name="nombre" placeholder="Ej. Hugo Cruz" required>
+                                    <input type="text" id="nombre" name="nombre" placeholder="Ej. Lius Torres" required>
                                 </div>
                                 <div class="form-group">
                                     <label for="categoria">Categoría</label>
