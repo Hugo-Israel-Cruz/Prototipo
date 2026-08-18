@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+
+{% block titulo %}{{ NOMBRE_SITIO }} - Iniciar sesión{% endblock %}
+
+{% block contenido %}
+<div class="content-card" style="max-width:450px; margin:0 auto;">
+    <h2 style="text-align:center;">Iniciar sesión</h2>
+    <p class="sub" style="text-align:center;">Accede a tu cuenta para gestionar tus consultas</p>
+
+    {% with mensajes = get_flashed_messages(with_categories=true) %}
+        {% if mensajes %}
+            {% for categoria, mensaje in mensajes %}
+                <div style="padding:12px 16px; border-radius:10px; margin-bottom:16px; 
+                    {% if categoria == 'error' %}background:#fde8e8; color:#c0392b; border:1px solid #f5c6c6;
+                    {% elif categoria == 'success' %}background:#e8f5e9; color:#27ae60; border:1px solid #c8e6c9;
+                    {% else %}background:#e3f2fd; color:#1a3a5c; border:1px solid #bbdefb;{% endif %}">
+                    {{ mensaje }}
+                </div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+
+    <form action="/login" method="POST">
+        <div class="form-group">
+            <label for="email">Correo electrónico <span class="required">*</span></label>
+            <input type="email" id="email" name="email" placeholder="Ej. correo@ejemplo.com" required>
+        </div>
+
+        <div class="form-group" style="margin-top:14px;">
+            <label for="password">Contraseña <span class="required">*</span></label>
+            <input type="password" id="password" name="password" placeholder="Ingresa tu contraseña" required>
+        </div>
+
+        <button type="submit" class="btn-submit" style="margin-top:20px;">Iniciar sesión</button>
+    </form>
+
+    <p style="text-align:center; margin-top:16px; color:#6a7a8a; font-size:0.9rem;">
+        ¿No tienes cuenta? <a href="/registro" style="color:#C9A84C; font-weight:600; text-decoration:none;">Regístrate aquí</a>
+    </p>
+</div>
+{% endblock %}

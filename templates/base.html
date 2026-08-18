@@ -16,6 +16,12 @@
                 <a href="/" {% if request.endpoint == 'inicio' %}class="active"{% endif %}>{{ NOMBRE_INICIO }}</a>
                 <a href="/consultas" {% if request.endpoint == 'consultas' %}class="active"{% endif %}>{{ NOMBRE_CONSULTAS }}</a>
                 <a href="/acerca" {% if request.endpoint == 'acerca' %}class="active"{% endif %}>{{ NOMBRE_ACERCA }}</a>
+                {% if usuario_actual %}
+                    <a href="/logout" style="color:#C9A84C;">Cerrar sesión</a>
+                {% else %}
+                    <a href="/login">Iniciar sesión</a>
+                    <a href="/registro">Registrarse</a>
+                {% endif %}
             </nav>
         </header>
 
@@ -29,6 +35,12 @@
                 <a href="#" class="menu-item" onclick="alert('Función en desarrollo')"><span class="icon">◈</span> Nueva consulta</a>
                 <a href="#" class="menu-item" onclick="alert('Función en desarrollo')"><span class="icon">◈</span> Estadísticas</a>
                 <a href="#" class="menu-item" onclick="alert('Función en desarrollo')"><span class="icon">◈</span> Configuración</a>
+                <hr style="border: 0.5px solid rgba(255,255,255,0.1); margin: 12px 0;">
+                {% if usuario_actual %}
+                    <div style="color:rgba(255,255,255,0.6); font-size:0.8rem; padding:10px 16px;">
+                        👤 {{ session.get('usuario_nombre', 'Usuario') }}
+                    </div>
+                {% endif %}
             </aside>
 
             <!-- CONTENIDO PRINCIPAL -->
