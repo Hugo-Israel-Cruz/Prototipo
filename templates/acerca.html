@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% block titulo %}{{ NOMBRE_SITIO }} - {{ NOMBRE_ACERCA }}{% endblock %}
+
+{% block contenido %}
+<div class="content-card about-content">
+    <h2>Acerca de <span class="gold">{{ NOMBRE_SITIO }}</span></h2>
+    <p>
+        <span class="gold">{{ NOMBRE_SITIO }}</span> es un sistema profesional de gestión de consultas 
+        diseñado para facilitar el acceso a información estructurada y precisa.
+    </p>
+    <h2>Características</h2>
+    <ul>
+        <li>Formulario de consultas con categorización</li>
+        <li>Almacenamiento seguro en base de datos PostgreSQL</li>
+        <li>Interfaz limpia y profesional</li>
+        <li>Diseño responsive para todos los dispositivos</li>
+    </ul>
+    <h2>Tecnologías</h2>
+    <ul>
+        <li>Python &middot; Flask &middot; PostgreSQL</li>
+        <li>HTML5 &middot; CSS3 &middot; Inter (tipografía)</li>
+        <li>Render (alojamiento en la nube)</li>
+    </ul>
+    <a href="/" class="btn">Volver al inicio</a>
+</div>
+{% endblock %}
