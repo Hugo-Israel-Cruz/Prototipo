@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block titulo %}{{ NOMBRE_SITIO }} - {{ info.titulo }}{% endblock %}
+
+{% block contenido %}
+<div class="content-card">
+    <a href="/" style="display:inline-block; margin-bottom:16px; color:#C9A84C; text-decoration:none; font-weight:500;">
+        ← Volver al inicio
+    </a>
+    
+    <h2 style="font-size:1.8rem; color:{{ COLOR_AZUL }};">{{ info.titulo }}</h2>
+    
+    <div style="background:#F8F6F1; padding:20px 24px; border-radius:12px; margin:16px 0; border-left:4px solid #C9A84C;">
+        <p style="color:#4a5a6a; font-size:1.05rem; line-height:1.7;">{{ info.descripcion }}</p>
+    </div>
+    
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px; margin:20px 0 24px 0;">
+        <div style="background:#F8F6F1; padding:16px 20px; border-radius:10px;">
+            <span style="font-size:0.75rem; text-transform:uppercase; color:#6a7a8a; font-weight:600;">Institución</span>
+            <p style="color:#1A3A5C; font-weight:500; margin-top:4px;">{{ info.institucion }}</p>
+        </div>
+        <div style="background:#F8F6F1; padding:16px 20px; border-radius:10px;">
+            <span style="font-size:0.75rem; text-transform:uppercase; color:#6a7a8a; font-weight:600;">Categoría</span>
+            <p style="color:#1A3A5C; font-weight:500; margin-top:4px;">{{ info.get('categoria', 'General') }}</p>
+        </div>
+    </div>
+    
+    <a href="/base-datos/{{ categoria }}" class="btn-submit" style="display:inline-block; width:auto; padding:12px 32px; text-decoration:none; text-align:center;">
+        📊 Ver base de datos
+    </a>
+</div>
+{% endblock %}

@@ -199,3 +199,60 @@ def enviar_consulta():
 
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0', port=5000)
+
+
+# ============================================================
+# 📊 RUTAS PARA CATEGORÍAS Y BASES DE DATOS
+# ============================================================
+
+@app.route('/categoria/<nombre_categoria>')
+def ver_categoria(nombre_categoria):
+    """Muestra la página de detalle de una categoría"""
+    categoria = INFORMACION_CATEGORIAS.get(nombre_categoria)
+    if not categoria:
+        flash('Categoría no encontrada', 'error')
+        return redirect(url_for('inicio'))
+    
+    return render_template('categoria.html',
+                           categoria=nombre_categoria,
+                           info=categoria,
+                           NOMBRE_SITIO=NOMBRE_SITIO,
+                           TEXTO_BIENVENIDA=TEXTO_BIENVENIDA,
+                           TEXTO_FOOTER=TEXTO_FOOTER,
+                           TEXTO_AÑO=TEXTO_AÑO,
+                           NOMBRE_INICIO=NOMBRE_INICIO,
+                           NOMBRE_CONSULTAS=NOMBRE_CONSULTAS,
+                           NOMBRE_ACERCA=NOMBRE_ACERCA,
+                           usuario_actual=session.get('usuario_id'))
+
+
+@app.route('/base-datos/<nombre_categoria>')
+def ver_base_datos(nombre_categoria):
+    """Muestra la base de datos completa de una categoría"""
+    categoria = INFORMACION_CATEGORIAS.get(nombre_categoria)
+    if not categoria:
+        flash('Categoría no encontrada', 'error')
+        return redirect(url_for('inicio'))
+    
+    # Para la categoría "pensionados", usamos los datos del CSV
+    if nombre_categoria == "pensionados":
+        columnas = categoria.get('columnas', [])
+        datos = categoria.get('datos', [])
+    else:
+        # Para otras categorías, usamos los datos genéricos
+        columnas = ["id", "nombre", "descripcion", "nivel"] if "datos" in categoria and categoria["datos"] else []
+        datos = categoria.get('datos', [])
+    
+    return render_template('base_datos.html',
+                           categoria=nombre_categoria,
+                           info=categoria,
+                           columnas=columnas,
+                           datos=datos,
+                           NOMBRE_SITIO=NOMBRE_SITIO,
+                           TEXTO_BIENVENIDA=TEXTO_BIENVENIDA,
+                           TEXTO_FOOTER=TEXTO_FOOTER,
+                           TEXTO_AÑO=TEXTO_AÑO,
+                           NOMBRE_INICIO=NOMBRE_INICIO,
+                           NOMBRE_CONSULTAS=NOMBRE_CONSULTAS,
+                           NOMBRE_ACERCA=NOMBRE_ACERCA,
+                           usuario_actual=session.get('usuario_id'))

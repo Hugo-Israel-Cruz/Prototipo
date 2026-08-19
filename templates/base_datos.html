@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+
+{% block titulo %}{{ NOMBRE_SITIO }} - Base de datos - {{ info.titulo }}{% endblock %}
+
+{% block contenido %}
+<div class="content-card">
+    <a href="/categoria/{{ categoria }}" style="display:inline-block; margin-bottom:16px; color:#C9A84C; text-decoration:none; font-weight:500;">
+        ← Volver a detalles
+    </a>
+    
+    <h2 style="color:{{ COLOR_AZUL }};">📊 Base de datos - {{ info.titulo }}</h2>
+    
+    {% if categoria == 'pensionados' %}
+        <div style="background:#e8f5e9; padding:12px 18px; border-radius:10px; margin:12px 0 20px 0; border-left:4px solid #27ae60;">
+            <p style="color:#2c3e50; font-size:0.95rem;">
+                <strong>Ejercicio:</strong> {{ info.ejercicio }} &nbsp;|&nbsp; 
+                <strong>Trimestre:</strong> {{ info.trimestre }} &nbsp;|&nbsp; 
+                <strong>Formato:</strong> {{ info.formato }}
+            </p>
+        </div>
+    {% endif %}
+    
+    <p style="color:#6a7a8a; margin-bottom:16px;">
+        Mostrando <strong>{{ datos|length }}</strong> registros
+    </p>
+    
+    <div style="overflow-x:auto;">
+        <table style="width:100%; border-collapse:collapse; font-size:0.9rem;">
+            <thead>
+                <tr style="background:#1A3A5C; color:white;">
+                    {% for columna in columnas %}
+                        <th style="padding:12px 16px; text-align:left; font-weight:500;">{{ columna|replace('_', ' ')|title }}</th>
+                    {% endfor %}
+                </tr>
+            </thead>
+            <tbody>
+                {% for fila in datos %}
+                    <tr style="border-bottom:1px solid #F0EDE8;">
+                        {% for columna in columnas %}
+                            <td style="padding:10px 16px; color:#1A3A5C;">
+                                {{ fila[columna] if fila[columna] is not none else '' }}
+                            </td>
+                        {% endfor %}
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    
+    <div style="margin-top:20px; text-align:center; color:#6a7a8a; font-size:0.85rem;">
+        Total de registros: <strong>{{ datos|length }}</strong>
+    </div>
+</div>
+{% endblock %}

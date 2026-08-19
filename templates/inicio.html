@@ -62,12 +62,41 @@
         <hr class="separator">
         <h3 style="font-size:0.85rem; font-weight:600; color:{{ COLOR_AZUL }}; margin-bottom:8px;">{{ TEXTO_EJEMPLOS }}</h3>
         <div class="examples-grid">
-            {% for ej in EJEMPLOS_CONSULTAS %}
-            <div class="example-item" onclick="document.getElementById('pregunta').value='{{ ej.texto }}'">
-                {{ ej.texto }}
-                <span class="cat">{{ ej.categoria }}</span>
-            </div>
-            {% endfor %}
+    <!-- Tecnología -->
+    <a href="/categoria/tecnologia" style="text-decoration:none;">
+        <div class="example-item">
+            Fundamentos de programación orientada a objetos
+            <span class="cat">TECNOLOGÍA</span>
         </div>
+    </a>
+    <!-- Negocios -->
+    <a href="/categoria/negocios" style="text-decoration:none;">
+        <div class="example-item">
+            Cómo mejorar la productividad en el trabajo
+            <span class="cat">NEGOCIOS</span>
+        </div>
+    </a>
+    <!-- Educación -->
+    <a href="/categoria/educacion" style="text-decoration:none;">
+        <div class="example-item">
+            Beneficios del aprendizaje continuo
+            <span class="cat">EDUCACIÓN</span>
+        </div>
+    </a>
+    <!-- Salud -->
+    <a href="/categoria/salud" style="text-decoration:none;">
+        <div class="example-item">
+            Cómo mantener una alimentación saludable
+            <span class="cat">SALUD</span>
+        </div>
+    </a>
+    <!-- Pensionados (nueva) -->
+    <a href="/categoria/pensionados" style="text-decoration:none;">
+        <div class="example-item">
+            Padrón de jubilados y pensionados
+            <span class="cat">TRABAJO</span>
+        </div>
+    </a>
+</div>
     </div>
 {% endblock %}
