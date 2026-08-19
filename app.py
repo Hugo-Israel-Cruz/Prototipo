@@ -9,10 +9,8 @@ app.secret_key = SECRET_KEY
 # 📦 BASE DE DATOS EN MEMORIA (diccionario)
 # ============================================================
 
-# Diccionario para almacenar usuarios
-# Estructura: { "email": { "nombre": "Juan", "password_hash": "hash", "id": 1 } }
 usuarios_db = {}
-contador_ids = 1  # Para asignar IDs automáticos
+contador_ids = 1
 
 
 # ============================================================
@@ -66,7 +64,7 @@ def acerca():
 
 
 # ============================================================
-# 🔐 REGISTRO Y LOGIN (sin base de datos)
+# 🔐 REGISTRO Y LOGIN
 # ============================================================
 
 @app.route('/registro', methods=['GET', 'POST'])
@@ -79,7 +77,6 @@ def registro():
         password = request.form.get('password')
         confirmar = request.form.get('confirmar_password')
 
-        # Validaciones
         if not nombre or not email or not password:
             flash('Todos los campos son obligatorios', 'error')
             return redirect(url_for('registro'))
@@ -92,12 +89,10 @@ def registro():
             flash('La contraseña debe tener al menos 6 caracteres', 'error')
             return redirect(url_for('registro'))
 
-        # Verificar si el email ya existe en el diccionario
         if email in usuarios_db:
             flash('El correo electrónico ya está registrado', 'error')
             return redirect(url_for('registro'))
 
-        # Crear nuevo usuario en el diccionario
         usuarios_db[email] = {
             'id': contador_ids,
             'nombre': nombre,
@@ -130,19 +125,16 @@ def login():
             flash('Todos los campos son obligatorios', 'error')
             return redirect(url_for('login'))
 
-        # Buscar usuario en el diccionario
         usuario = usuarios_db.get(email)
 
         if not usuario:
             flash('Correo o contraseña incorrectos', 'error')
             return redirect(url_for('login'))
 
-        # Verificar contraseña
         if not check_password_hash(usuario['password_hash'], password):
             flash('Correo o contraseña incorrectos', 'error')
             return redirect(url_for('login'))
 
-        # Iniciar sesión
         session['usuario_id'] = usuario['id']
         session['usuario_nombre'] = usuario['nombre']
         session['usuario_email'] = usuario['email']
@@ -165,6 +157,61 @@ def logout():
     session.clear()
     flash('Sesión cerrada correctamente', 'info')
     return redirect(url_for('inicio'))
+
+
+# ============================================================
+# 📊 RUTAS PARA CATEGORÍAS Y BASES DE DATOS
+# ============================================================
+
+@app.route('/categoria/<nombre_categoria>')
+def ver_categoria(nombre_categoria):
+    categoria = INFORMACION_CATEGORIAS.get(nombre_categoria)
+    if not categoria:
+        flash('Categoría no encontrada', 'error')
+        return redirect(url_for('inicio'))
+    
+    return render_template('categoria.html',
+                           categoria=nombre_categoria,
+                           info=categoria,
+                           NOMBRE_SITIO=NOMBRE_SITIO,
+                           TEXTO_BIENVENIDA=TEXTO_BIENVENIDA,
+                           TEXTO_FOOTER=TEXTO_FOOTER,
+                           TEXTO_AÑO=TEXTO_AÑO,
+                           NOMBRE_INICIO=NOMBRE_INICIO,
+                           NOMBRE_CONSULTAS=NOMBRE_CONSULTAS,
+                           NOMBRE_ACERCA=NOMBRE_ACERCA,
+                           COLOR_AZUL=COLOR_AZUL,
+                           usuario_actual=session.get('usuario_id'))
+
+
+@app.route('/base-datos/<nombre_categoria>')
+def ver_base_datos(nombre_categoria):
+    categoria = INFORMACION_CATEGORIAS.get(nombre_categoria)
+    if not categoria:
+        flash('Categoría no encontrada', 'error')
+        return redirect(url_for('inicio'))
+    
+    if nombre_categoria == "pensionados":
+        columnas = categoria.get('columnas', [])
+        datos = categoria.get('datos', [])
+    else:
+        columnas = ["id", "nombre", "descripcion", "nivel"] if "datos" in categoria and categoria["datos"] else []
+        datos = categoria.get('datos', [])
+    
+    return render_template('base_datos.html',
+                           categoria=nombre_categoria,
+                           info=categoria,
+                           columnas=columnas,
+                           datos=datos,
+                           NOMBRE_SITIO=NOMBRE_SITIO,
+                           TEXTO_BIENVENIDA=TEXTO_BIENVENIDA,
+                           TEXTO_FOOTER=TEXTO_FOOTER,
+                           TEXTO_AÑO=TEXTO_AÑO,
+                           NOMBRE_INICIO=NOMBRE_INICIO,
+                           NOMBRE_CONSULTAS=NOMBRE_CONSULTAS,
+                           NOMBRE_ACERCA=NOMBRE_ACERCA,
+                           COLOR_AZUL=COLOR_AZUL,
+                           usuario_actual=session.get('usuario_id'))
 
 
 # ============================================================
@@ -199,60 +246,3 @@ def enviar_consulta():
 
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0', port=5000)
-
-
-# ============================================================
-# 📊 RUTAS PARA CATEGORÍAS Y BASES DE DATOS
-# ============================================================
-
-@app.route('/categoria/<nombre_categoria>')
-def ver_categoria(nombre_categoria):
-    """Muestra la página de detalle de una categoría"""
-    categoria = INFORMACION_CATEGORIAS.get(nombre_categoria)
-    if not categoria:
-        flash('Categoría no encontrada', 'error')
-        return redirect(url_for('inicio'))
-    
-    return render_template('categoria.html',
-                           categoria=nombre_categoria,
-                           info=categoria,
-                           NOMBRE_SITIO=NOMBRE_SITIO,
-                           TEXTO_BIENVENIDA=TEXTO_BIENVENIDA,
-                           TEXTO_FOOTER=TEXTO_FOOTER,
-                           TEXTO_AÑO=TEXTO_AÑO,
-                           NOMBRE_INICIO=NOMBRE_INICIO,
-                           NOMBRE_CONSULTAS=NOMBRE_CONSULTAS,
-                           NOMBRE_ACERCA=NOMBRE_ACERCA,
-                           usuario_actual=session.get('usuario_id'))
-
-
-@app.route('/base-datos/<nombre_categoria>')
-def ver_base_datos(nombre_categoria):
-    """Muestra la base de datos completa de una categoría"""
-    categoria = INFORMACION_CATEGORIAS.get(nombre_categoria)
-    if not categoria:
-        flash('Categoría no encontrada', 'error')
-        return redirect(url_for('inicio'))
-    
-    # Para la categoría "pensionados", usamos los datos del CSV
-    if nombre_categoria == "pensionados":
-        columnas = categoria.get('columnas', [])
-        datos = categoria.get('datos', [])
-    else:
-        # Para otras categorías, usamos los datos genéricos
-        columnas = ["id", "nombre", "descripcion", "nivel"] if "datos" in categoria and categoria["datos"] else []
-        datos = categoria.get('datos', [])
-    
-    return render_template('base_datos.html',
-                           categoria=nombre_categoria,
-                           info=categoria,
-                           columnas=columnas,
-                           datos=datos,
-                           NOMBRE_SITIO=NOMBRE_SITIO,
-                           TEXTO_BIENVENIDA=TEXTO_BIENVENIDA,
-                           TEXTO_FOOTER=TEXTO_FOOTER,
-                           TEXTO_AÑO=TEXTO_AÑO,
-                           NOMBRE_INICIO=NOMBRE_INICIO,
-                           NOMBRE_CONSULTAS=NOMBRE_CONSULTAS,
-                           NOMBRE_ACERCA=NOMBRE_ACERCA,
-                           usuario_actual=session.get('usuario_id'))
