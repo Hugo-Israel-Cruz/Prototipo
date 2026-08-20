@@ -20,6 +20,59 @@
         </div>
     {% endif %}
     
+    <!-- ============================================ -->
+    <!-- BOTÓN PARA GENERAR GRÁFICA                   -->
+    <!-- ============================================ -->
+    <div style="display:flex; gap:12px; flex-wrap:wrap; margin-bottom:20px;">
+        <button id="btnGrafica" onclick="mostrarGrafica()" class="btn-grafica" style="
+            background: #C9A84C;
+            color: #FFFFFF;
+            border: none;
+            padding: 12px 28px;
+            border-radius: 12px;
+            font-weight: 600;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        ">
+            📊 Generar gráfica
+        </button>
+        <button onclick="ocultarGrafica()" class="btn-grafica" style="
+            background: #e74c3c;
+            color: #FFFFFF;
+            border: none;
+            padding: 12px 28px;
+            border-radius: 12px;
+            font-weight: 600;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: none;
+            align-items: center;
+            gap: 10px;
+        " id="btnOcultarGrafica">
+            ❌ Ocultar gráfica
+        </button>
+    </div>
+
+    <!-- ============================================ -->
+    <!-- CONTENEDOR DE LA GRÁFICA                     -->
+    <!-- ============================================ -->
+    <div id="contenedorGrafica" style="display: none; background: #FFFFFF; padding: 20px; border-radius: 12px; margin-bottom: 24px; border: 2px solid #E8E3DC;">
+        <canvas id="graficaPensiones" width="800" height="400"></canvas>
+        <p style="text-align:center; color:#6a7a8a; font-size:0.8rem; margin-top:12px;">
+            Pensiones por mandato y sexo
+        </p>
+    </div>
+    
+    <!-- ============================================ -->
+    <!-- TABLA DE DATOS                               -->
+    <!-- ============================================ -->
     <p style="color:#6a7a8a; margin-bottom:16px;">
         Mostrando <strong>{{ datos|length }}</strong> registros
     </p>
@@ -51,4 +104,174 @@
         Total de registros: <strong>{{ datos|length }}</strong>
     </div>
 </div>
+
+<!-- ============================================ -->
+<!-- CHART.JS - Librería para gráficas           -->
+<!-- ============================================ -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+    // ============================================
+    // DATOS DE LA BASE DE DATOS (pasados desde Python)
+    // ============================================
+    const datosPensiones = {{ datos|tojson }};
+    
+    // ============================================
+    // FUNCIÓN PARA MOSTRAR LA GRÁFICA
+    // ============================================
+    function mostrarGrafica() {
+        // Mostrar el contenedor
+        document.getElementById('contenedorGrafica').style.display = 'block';
+        document.getElementById('btnGrafica').style.display = 'none';
+        document.getElementById('btnOcultarGrafica').style.display = 'flex';
+        
+        // Procesar datos para la gráfica
+        const mandatos = {};
+        
+        datosPensiones.forEach(item => {
+            const mandato = item.mandato_encargo;
+            const sexo = item.sexo;
+            const pensionMax = item.mto_pension_max || 0;
+            const pensionMin = item.mto_pension_min || 0;
+            const pensionPromedio = (pensionMax + pensionMin) / 2;
+            
+            if (!mandatos[mandato]) {
+                mandatos[mandato] = { mujer: 0, hombre: 0, mujerCount: 0, hombreCount: 0 };
+            }
+            
+            if (sexo === 'Mujer') {
+                mandatos[mandato].mujer += pensionPromedio;
+                mandatos[mandato].mujerCount += 1;
+            } else if (sexo === 'Hombre') {
+                mandatos[mandato].hombre += pensionPromedio;
+                mandatos[mandato].hombreCount += 1;
+            }
+        });
+        
+        // Calcular promedios y preparar datos para la gráfica
+        const labels = [];
+        const dataMujer = [];
+        const dataHombre = [];
+        
+        for (const [mandato, valores] of Object.entries(mandatos)) {
+            labels.push(mandato);
+            dataMujer.push(valores.mujerCount > 0 ? Math.round(valores.mujer / valores.mujerCount) : 0);
+            dataHombre.push(valores.hombreCount > 0 ? Math.round(valores.hombre / valores.hombreCount) : 0);
+        }
+        
+        // Crear la gráfica
+        const ctx = document.getElementById('graficaPensiones').getContext('2d');
+        
+        // Si ya existe una gráfica, destruirla para crear una nueva
+        if (window.graficaPensiones) {
+            window.graficaPensiones.destroy();
+        }
+        
+        window.graficaPensiones = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: labels,
+                datasets: [
+                    {
+                        label: 'Mujeres (promedio)',
+                        data: dataMujer,
+                        backgroundColor: 'rgba(201, 168, 76, 0.8)',
+                        borderColor: '#C9A84C',
+                        borderWidth: 2,
+                        borderRadius: 6,
+                    },
+                    {
+                        label: 'Hombres (promedio)',
+                        data: dataHombre,
+                        backgroundColor: 'rgba(26, 58, 92, 0.8)',
+                        borderColor: '#1A3A5C',
+                        borderWidth: 2,
+                        borderRadius: 6,
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: true,
+                plugins: {
+                    legend: {
+                        position: 'top',
+                        labels: {
+                            font: {
+                                family: 'Inter',
+                                size: 12,
+                                weight: '500'
+                            },
+                            color: '#1A3A5C'
+                        }
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                let label = context.dataset.label || '';
+                                if (label) {
+                                    label += ': ';
+                                }
+                                if (context.parsed.y !== null) {
+                                    label += '$' + context.parsed.y.toLocaleString('es-MX');
+                                }
+                                return label;
+                            }
+                        }
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        ticks: {
+                            callback: function(value) {
+                                return '$' + value.toLocaleString('es-MX');
+                            },
+                            font: {
+                                family: 'Inter',
+                                size: 10
+                            }
+                        },
+                        grid: {
+                            color: 'rgba(0,0,0,0.05)'
+                        }
+                    },
+                    x: {
+                        grid: {
+                            display: false
+                        },
+                        ticks: {
+                            font: {
+                                family: 'Inter',
+                                size: 10,
+                                weight: '500'
+                            },
+                            maxRotation: 45,
+                            minRotation: 30
+                        }
+                    }
+                }
+            }
+        });
+    }
+    
+    // ============================================
+    // FUNCIÓN PARA OCULTAR LA GRÁFICA
+    // ============================================
+    function ocultarGrafica() {
+        document.getElementById('contenedorGrafica').style.display = 'none';
+        document.getElementById('btnGrafica').style.display = 'flex';
+        document.getElementById('btnOcultarGrafica').style.display = 'none';
+    }
+</script>
+
+<style>
+    .btn-grafica:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 30px rgba(201, 168, 76, 0.3);
+    }
+    .btn-grafica:active {
+        transform: translateY(0);
+    }
+</style>
 {% endblock %}
