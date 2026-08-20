@@ -21,10 +21,10 @@
     {% endif %}
     
     <!-- ============================================ -->
-    <!-- BOTÓN PARA GENERAR GRÁFICA                   -->
+    <!-- BOTONES PARA GENERAR Y OCULTAR GRÁFICA       -->
     <!-- ============================================ -->
     <div style="display:flex; gap:12px; flex-wrap:wrap; margin-bottom:20px;">
-        <button id="btnGrafica" onclick="mostrarGrafica()" class="btn-grafica" style="
+        <button onclick="mostrarGrafica()" id="btnGrafica" style="
             background: #C9A84C;
             color: #FFFFFF;
             border: none;
@@ -35,13 +35,13 @@
             font-size: 0.95rem;
             cursor: pointer;
             transition: all 0.3s ease;
-            display: flex;
+            display: inline-flex;
             align-items: center;
             gap: 10px;
         ">
-            📊 Generar gráfica
+            📊 Generar gráfica de barras
         </button>
-        <button onclick="ocultarGrafica()" class="btn-grafica" style="
+        <button onclick="ocultarGrafica()" id="btnOcultarGrafica" style="
             background: #e74c3c;
             color: #FFFFFF;
             border: none;
@@ -55,7 +55,7 @@
             display: none;
             align-items: center;
             gap: 10px;
-        " id="btnOcultarGrafica">
+        ">
             ❌ Ocultar gráfica
         </button>
     </div>
@@ -63,10 +63,10 @@
     <!-- ============================================ -->
     <!-- CONTENEDOR DE LA GRÁFICA                     -->
     <!-- ============================================ -->
-    <div id="contenedorGrafica" style="display: none; background: #FFFFFF; padding: 20px; border-radius: 12px; margin-bottom: 24px; border: 2px solid #E8E3DC;">
-        <canvas id="graficaPensiones" width="800" height="400"></canvas>
-        <p style="text-align:center; color:#6a7a8a; font-size:0.8rem; margin-top:12px;">
-            Pensiones por mandato y sexo
+    <div id="contenedorGrafica" style="display: none; background: #FFFFFF; padding: 24px; border-radius: 12px; margin-bottom: 24px; border: 2px solid #E8E3DC;">
+        <canvas id="graficaPensiones"></canvas>
+        <p style="text-align:center; color:#6a7a8a; font-size:0.85rem; margin-top:12px;">
+            Pensión promedio por mandato y sexo (MXN)
         </p>
     </div>
     
@@ -82,7 +82,9 @@
             <thead>
                 <tr style="background:#1A3A5C; color:white;">
                     {% for columna in columnas %}
-                        <th style="padding:12px 16px; text-align:left; font-weight:500;">{{ columna|replace('_', ' ')|title }}</th>
+                        <th style="padding:12px 16px; text-align:left; font-weight:500; white-space:nowrap;">
+                            {{ columna|replace('_', ' ')|title }}
+                        </th>
                     {% endfor %}
                 </tr>
             </thead>
@@ -112,31 +114,33 @@
 
 <script>
     // ============================================
-    // DATOS DE LA BASE DE DATOS (pasados desde Python)
+    // DATOS DE LA BASE DE DATOS (desde Python)
     // ============================================
     const datosPensiones = {{ datos|tojson }};
     
+    // Variable global para la gráfica
+    let miGrafica = null;
+    
     // ============================================
-    // FUNCIÓN PARA MOSTRAR LA GRÁFICA
+    // FUNCIÓN PARA PROCESAR DATOS
     // ============================================
-    function mostrarGrafica() {
-        // Mostrar el contenedor
-        document.getElementById('contenedorGrafica').style.display = 'block';
-        document.getElementById('btnGrafica').style.display = 'none';
-        document.getElementById('btnOcultarGrafica').style.display = 'flex';
-        
-        // Procesar datos para la gráfica
+    function procesarDatos() {
         const mandatos = {};
         
         datosPensiones.forEach(item => {
-            const mandato = item.mandato_encargo;
-            const sexo = item.sexo;
-            const pensionMax = item.mto_pension_max || 0;
-            const pensionMin = item.mto_pension_min || 0;
+            const mandato = item.mandato_encargo || 'Desconocido';
+            const sexo = item.sexo || 'No especificado';
+            const pensionMax = parseFloat(item.mto_pension_max) || 0;
+            const pensionMin = parseFloat(item.mto_pension_min) || 0;
             const pensionPromedio = (pensionMax + pensionMin) / 2;
             
             if (!mandatos[mandato]) {
-                mandatos[mandato] = { mujer: 0, hombre: 0, mujerCount: 0, hombreCount: 0 };
+                mandatos[mandato] = { 
+                    mujer: 0, 
+                    hombre: 0, 
+                    mujerCount: 0, 
+                    hombreCount: 0 
+                };
             }
             
             if (sexo === 'Mujer') {
@@ -148,26 +152,51 @@
             }
         });
         
-        // Calcular promedios y preparar datos para la gráfica
         const labels = [];
         const dataMujer = [];
         const dataHombre = [];
         
         for (const [mandato, valores] of Object.entries(mandatos)) {
             labels.push(mandato);
-            dataMujer.push(valores.mujerCount > 0 ? Math.round(valores.mujer / valores.mujerCount) : 0);
-            dataHombre.push(valores.hombreCount > 0 ? Math.round(valores.hombre / valores.hombreCount) : 0);
+            const promMujer = valores.mujerCount > 0 ? Math.round(valores.mujer / valores.mujerCount) : 0;
+            const promHombre = valores.hombreCount > 0 ? Math.round(valores.hombre / valores.hombreCount) : 0;
+            dataMujer.push(promMujer);
+            dataHombre.push(promHombre);
         }
         
-        // Crear la gráfica
+        return { labels, dataMujer, dataHombre };
+    }
+    
+    // ============================================
+    // FUNCIÓN PARA MOSTRAR LA GRÁFICA
+    // ============================================
+    function mostrarGrafica() {
+        // Mostrar contenedor y ocultar botones
+        document.getElementById('contenedorGrafica').style.display = 'block';
+        document.getElementById('btnGrafica').style.display = 'none';
+        document.getElementById('btnOcultarGrafica').style.display = 'inline-flex';
+        
+        // Procesar datos
+        const { labels, dataMujer, dataHombre } = procesarDatos();
+        
+        // Si no hay datos, mostrar mensaje
+        if (labels.length === 0) {
+            document.getElementById('contenedorGrafica').innerHTML = 
+                '<p style="text-align:center; color:#e74c3c; padding:40px;">No hay datos suficientes para generar la gráfica</p>';
+            return;
+        }
+        
+        // Obtener el contexto del canvas
         const ctx = document.getElementById('graficaPensiones').getContext('2d');
         
-        // Si ya existe una gráfica, destruirla para crear una nueva
-        if (window.graficaPensiones) {
-            window.graficaPensiones.destroy();
+        // Destruir gráfica anterior si existe
+        if (miGrafica) {
+            miGrafica.destroy();
+            miGrafica = null;
         }
         
-        window.graficaPensiones = new Chart(ctx, {
+        // Crear nueva gráfica de barras
+        miGrafica = new Chart(ctx, {
             type: 'bar',
             data: {
                 labels: labels,
@@ -179,6 +208,7 @@
                         borderColor: '#C9A84C',
                         borderWidth: 2,
                         borderRadius: 6,
+                        barPercentage: 0.7
                     },
                     {
                         label: 'Hombres (promedio)',
@@ -187,6 +217,7 @@
                         borderColor: '#1A3A5C',
                         borderWidth: 2,
                         borderRadius: 6,
+                        barPercentage: 0.7
                     }
                 ]
             },
@@ -202,7 +233,9 @@
                                 size: 12,
                                 weight: '500'
                             },
-                            color: '#1A3A5C'
+                            color: '#1A3A5C',
+                            usePointStyle: true,
+                            padding: 20
                         }
                     },
                     tooltip: {
@@ -212,7 +245,7 @@
                                 if (label) {
                                     label += ': ';
                                 }
-                                if (context.parsed.y !== null) {
+                                if (context.parsed.y !== null && context.parsed.y !== undefined) {
                                     label += '$' + context.parsed.y.toLocaleString('es-MX');
                                 }
                                 return label;
@@ -225,6 +258,9 @@
                         beginAtZero: true,
                         ticks: {
                             callback: function(value) {
+                                if (value >= 1000) {
+                                    return '$' + (value / 1000).toFixed(0) + 'k';
+                                }
                                 return '$' + value.toLocaleString('es-MX');
                             },
                             font: {
@@ -233,7 +269,7 @@
                             }
                         },
                         grid: {
-                            color: 'rgba(0,0,0,0.05)'
+                            color: 'rgba(0,0,0,0.06)'
                         }
                     },
                     x: {
@@ -260,8 +296,14 @@
     // ============================================
     function ocultarGrafica() {
         document.getElementById('contenedorGrafica').style.display = 'none';
-        document.getElementById('btnGrafica').style.display = 'flex';
+        document.getElementById('btnGrafica').style.display = 'inline-flex';
         document.getElementById('btnOcultarGrafica').style.display = 'none';
+        
+        // Destruir la gráfica para liberar memoria
+        if (miGrafica) {
+            miGrafica.destroy();
+            miGrafica = null;
+        }
     }
 </script>
 
@@ -272,6 +314,10 @@
     }
     .btn-grafica:active {
         transform: translateY(0);
+    }
+    #graficaPensiones {
+        max-height: 400px;
+        width: 100% !important;
     }
 </style>
 {% endblock %}
