@@ -3,33 +3,30 @@
 {% block titulo %}{{ NOMBRE_SITIO }} - Inicio{% endblock %}
 
 {% block contenido %}
-    <!-- Barra de búsqueda -->
-    <div class="search-bar">
-        <input type="text" placeholder="Buscar consultas, temas o palabras clave..." id="buscar">
-        <button class="btn-search" onclick="alert('Función de búsqueda en desarrollo')">Buscar</button>
-    </div>
+    <h1>Bienvenido a {{ NOMBRE_SITIO }}</h1>
+    <p class="subtitle">Sistema de consultas legales y de pensiones</p>
 
     <!-- Estadísticas -->
     <div class="stats-grid">
         <div class="stat-card">
-            <span class="numero">0</span>
-            <span class="label">Total consultas</span>
+            <span class="numero">7</span>
+            <span class="label">Temas disponibles</span>
         </div>
         <div class="stat-card">
-            <span class="numero">0</span>
-            <span class="label">Consultas respondidas</span>
+            <span class="numero">1</span>
+            <span class="label">Bases de datos</span>
         </div>
         <div class="stat-card">
-            <span class="numero">0</span>
-            <span class="label">Categorías activas</span>
+            <span class="numero">40+</span>
+            <span class="label">Registros</span>
         </div>
         <div class="stat-card">
-            <span class="numero">0</span>
-            <span class="label">Usuarios</span>
+            <span class="numero">4</span>
+            <span class="label">Usuarios activos</span>
         </div>
     </div>
 
-    <!-- Formulario -->
+    <!-- Formulario de consulta -->
     <div class="content-card">
         <h2>{{ TEXTO_FORMULARIO }}</h2>
         <p class="sub">{{ TEXTO_SUBFORMULARIO }}</p>
@@ -38,7 +35,7 @@
             <div class="form-row">
                 <div class="form-group">
                     <label for="nombre">Nombre completo <span class="required">*</span></label>
-                    <input type="text" id="nombre" name="nombre" placeholder="Ej. Luis Torres" required>
+                    <input type="text" id="nombre" name="nombre" placeholder="Ej. Juan Pérez" required>
                 </div>
                 <div class="form-group">
                     <label for="categoria">Categoría</label>
@@ -57,46 +54,33 @@
 
             <button type="submit" class="btn-submit">{{ TEXTO_BOTON }}</button>
         </form>
+    </div>
 
-        <!-- Ejemplos -->
-        <hr class="separator">
-        <h3 style="font-size:0.85rem; font-weight:600; color:{{ COLOR_AZUL }}; margin-bottom:8px;">{{ TEXTO_EJEMPLOS }}</h3>
+    <!-- Consultas de ejemplo -->
+    <div class="content-card">
+        <h2>{{ TEXTO_EJEMPLOS }}</h2>
+        <p class="sub">Haz clic en una consulta para ver más información</p>
         <div class="examples-grid">
-    <!-- Tecnología -->
-    <a href="/categoria/tecnologia" style="text-decoration:none;">
-        <div class="example-item">
-            Fundamentos de programación orientada a objetos
-            <span class="cat">TECNOLOGÍA</span>
+            <a href="/categoria/tecnologia" class="example-item">
+                Fundamentos de programación orientada a objetos
+                <span class="cat">TECNOLOGÍA</span>
+            </a>
+            <a href="/categoria/negocios" class="example-item">
+                Cómo mejorar la productividad en el trabajo
+                <span class="cat">NEGOCIOS</span>
+            </a>
+            <a href="/categoria/educacion" class="example-item">
+                Beneficios del aprendizaje continuo
+                <span class="cat">EDUCACIÓN</span>
+            </a>
+            <a href="/categoria/salud" class="example-item">
+                Cómo mantener una alimentación saludable
+                <span class="cat">SALUD</span>
+            </a>
+            <a href="/categoria/pensionados" class="example-item">
+                Padrón de jubilados y pensionados
+                <span class="cat">TRABAJO</span>
+            </a>
         </div>
-    </a>
-    <!-- Negocios -->
-    <a href="/categoria/negocios" style="text-decoration:none;">
-        <div class="example-item">
-            Cómo mejorar la productividad en el trabajo
-            <span class="cat">NEGOCIOS</span>
-        </div>
-    </a>
-    <!-- Educación -->
-    <a href="/categoria/educacion" style="text-decoration:none;">
-        <div class="example-item">
-            Beneficios del aprendizaje continuo
-            <span class="cat">EDUCACIÓN</span>
-        </div>
-    </a>
-    <!-- Salud -->
-    <a href="/categoria/salud" style="text-decoration:none;">
-        <div class="example-item">
-            Cómo mantener una alimentación saludable
-            <span class="cat">SALUD</span>
-        </div>
-    </a>
-    <!-- Pensionados (nueva) -->
-    <a href="/categoria/pensionados" style="text-decoration:none;">
-        <div class="example-item">
-            Padrón de jubilados y pensionados
-            <span class="cat">TRABAJO</span>
-        </div>
-    </a>
-</div>
     </div>
 {% endblock %}

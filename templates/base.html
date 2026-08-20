@@ -11,13 +11,13 @@
     <div class="main-wrapper">
         <!-- HEADER -->
         <header class="header">
-            <div class="logo">{{ NOMBRE_SITIO }} <span>✦</span> {{ TEXTO_BIENVENIDA }}</div>
+            <div class="logo">⚖️ {{ NOMBRE_SITIO }} <span>✦</span> {{ TEXTO_BIENVENIDA }}</div>
             <nav class="nav">
                 <a href="/" {% if request.endpoint == 'inicio' %}class="active"{% endif %}>{{ NOMBRE_INICIO }}</a>
                 <a href="/consultas" {% if request.endpoint == 'consultas' %}class="active"{% endif %}>{{ NOMBRE_CONSULTAS }}</a>
                 <a href="/acerca" {% if request.endpoint == 'acerca' %}class="active"{% endif %}>{{ NOMBRE_ACERCA }}</a>
                 {% if usuario_actual %}
-                    <a href="/logout" style="color:#C9A84C;">Cerrar sesión</a>
+                    <span class="user-info">👤 {{ session.get('usuario_nombre', 'Usuario') }} | <a href="/logout">Salir</a></span>
                 {% else %}
                     <a href="/login">Iniciar sesión</a>
                     <a href="/registro">Registrarse</a>
@@ -28,22 +28,60 @@
         <div class="body-wrapper">
             <!-- SIDEBAR -->
             <aside class="sidebar">
-                <h3>Menú principal</h3>
-                <a href="/" class="menu-item {% if request.endpoint == 'inicio' %}active{% endif %}"><span class="icon">◈</span> {{ NOMBRE_INICIO }}</a>
-                <a href="/consultas" class="menu-item {% if request.endpoint == 'consultas' %}active{% endif %}"><span class="icon">◈</span> {{ NOMBRE_CONSULTAS }}</a>
-                <a href="/acerca" class="menu-item {% if request.endpoint == 'acerca' %}active{% endif %}"><span class="icon">◈</span> {{ NOMBRE_ACERCA }}</a>
-                <a href="#" class="menu-item" onclick="alert('Función en desarrollo')"><span class="icon">◈</span> Nueva consulta</a>
-                <a href="#" class="menu-item" onclick="alert('Función en desarrollo')"><span class="icon">◈</span> Estadísticas</a>
-                <a href="#" class="menu-item" onclick="alert('Función en desarrollo')"><span class="icon">◈</span> Configuración</a>
-                <hr style="border: 0.5px solid rgba(255,255,255,0.1); margin: 12px 0;">
-                {% if usuario_actual %}
-                    <div style="color:rgba(255,255,255,0.6); font-size:0.8rem; padding:10px 16px;">
-                        👤 {{ session.get('usuario_nombre', 'Usuario') }}
+                <!-- Perfil de usuario -->
+                <div class="user-profile">
+                    <div class="avatar">
+                        {% if usuario_actual %}
+                            {{ session.get('usuario_nombre', 'U')[0]|upper }}
+                        {% else %}
+                            ?
+                        {% endif %}
                     </div>
-                {% endif %}
+                    <div>
+                        <div class="user-name">
+                            {% if usuario_actual %}
+                                {{ session.get('usuario_nombre', 'Usuario') }}
+                            {% else %}
+                                Invitado
+                            {% endif %}
+                        </div>
+                        <div class="user-email">
+                            {% if usuario_actual %}
+                                {{ session.get('usuario_email', '') }}
+                            {% else %}
+                                Inicia sesión
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Temas -->
+                <div class="section-title">📋 Temas</div>
+                
+                <a href="/categoria/pensionados" class="menu-item {% if request.path == '/categoria/pensionados' %}active{% endif %}">
+                    <span class="icon">📄</span> Pensión
+                </a>
+                <a href="#" class="menu-item" onclick="alert('Próximamente')">
+                    <span class="icon">⚖️</span> Divorcios
+                </a>
+                <a href="#" class="menu-item" onclick="alert('Próximamente')">
+                    <span class="icon">👨‍👩‍👧</span> Custodias
+                </a>
+                <a href="#" class="menu-item" onclick="alert('Próximamente')">
+                    <span class="icon">👶</span> Adopción
+                </a>
+                <a href="#" class="menu-item" onclick="alert('Próximamente')">
+                    <span class="icon">💑</span> Concubinato
+                </a>
+                <a href="#" class="menu-item" onclick="alert('Próximamente')">
+                    <span class="icon">🛡️</span> Pérdida de patria potestad
+                </a>
+                <a href="#" class="menu-item" onclick="alert('Próximamente')">
+                    <span class="icon">⚖️</span> Nulidad de matrimonios
+                </a>
             </aside>
 
-            <!-- CONTENIDO PRINCIPAL -->
+            <!-- CONTENIDO -->
             <main class="content">
                 {% block contenido %}
                 {% endblock %}
