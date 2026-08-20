@@ -12,6 +12,24 @@ app.secret_key = SECRET_KEY
 usuarios_db = {}
 contador_ids = 1
 
+# ============================================================
+# 👑 CREAR ADMINISTRADOR POR DEFECTO
+# ============================================================
+
+def crear_admin_por_defecto():
+    global contador_ids
+    if ADMIN_EMAIL not in usuarios_db:
+        usuarios_db[ADMIN_EMAIL] = {
+            'id': contador_ids,
+            'nombre': ADMIN_NOMBRE,
+            'email': ADMIN_EMAIL,
+            'password_hash': generate_password_hash(ADMIN_PASSWORD),
+            'rol': 'admin'
+        }
+        contador_ids += 1
+
+crear_admin_por_defecto()
+
 
 # ============================================================
 # 📄 PÁGINAS PÚBLICAS
@@ -34,7 +52,8 @@ def inicio():
                            CATEGORIAS=CATEGORIAS,
                            EJEMPLOS_CONSULTAS=EJEMPLOS_CONSULTAS,
                            COLOR_AZUL=COLOR_AZUL,
-                           usuario_actual=session.get('usuario_id'))
+                           usuario_actual=session.get('usuario_id'),
+                           es_admin=session.get('es_admin', False))
 
 
 @app.route('/consultas')
@@ -47,7 +66,8 @@ def consultas():
                            NOMBRE_INICIO=NOMBRE_INICIO,
                            NOMBRE_CONSULTAS=NOMBRE_CONSULTAS,
                            NOMBRE_ACERCA=NOMBRE_ACERCA,
-                           usuario_actual=session.get('usuario_id'))
+                           usuario_actual=session.get('usuario_id'),
+                           es_admin=session.get('es_admin', False))
 
 
 @app.route('/acerca')
@@ -60,7 +80,8 @@ def acerca():
                            NOMBRE_INICIO=NOMBRE_INICIO,
                            NOMBRE_CONSULTAS=NOMBRE_CONSULTAS,
                            NOMBRE_ACERCA=NOMBRE_ACERCA,
-                           usuario_actual=session.get('usuario_id'))
+                           usuario_actual=session.get('usuario_id'),
+                           es_admin=session.get('es_admin', False))
 
 
 # ============================================================
@@ -93,11 +114,13 @@ def registro():
             flash('El correo electrónico ya está registrado', 'error')
             return redirect(url_for('registro'))
 
+        # Los nuevos usuarios son normales por defecto
         usuarios_db[email] = {
             'id': contador_ids,
             'nombre': nombre,
             'email': email,
-            'password_hash': generate_password_hash(password)
+            'password_hash': generate_password_hash(password),
+            'rol': 'usuario'
         }
         contador_ids += 1
 
@@ -112,7 +135,8 @@ def registro():
                            NOMBRE_INICIO=NOMBRE_INICIO,
                            NOMBRE_CONSULTAS=NOMBRE_CONSULTAS,
                            NOMBRE_ACERCA=NOMBRE_ACERCA,
-                           usuario_actual=session.get('usuario_id'))
+                           usuario_actual=session.get('usuario_id'),
+                           es_admin=session.get('es_admin', False))
 
 
 @app.route('/login', methods=['GET', 'POST'])
@@ -135,9 +159,12 @@ def login():
             flash('Correo o contraseña incorrectos', 'error')
             return redirect(url_for('login'))
 
+        # Iniciar sesión
         session['usuario_id'] = usuario['id']
         session['usuario_nombre'] = usuario['nombre']
         session['usuario_email'] = usuario['email']
+        session['es_admin'] = usuario.get('rol', 'usuario') == 'admin'
+        
         flash(f'¡Bienvenido {usuario["nombre"]}!', 'success')
         return redirect(url_for('inicio'))
 
@@ -149,7 +176,8 @@ def login():
                            NOMBRE_INICIO=NOMBRE_INICIO,
                            NOMBRE_CONSULTAS=NOMBRE_CONSULTAS,
                            NOMBRE_ACERCA=NOMBRE_ACERCA,
-                           usuario_actual=session.get('usuario_id'))
+                           usuario_actual=session.get('usuario_id'),
+                           es_admin=session.get('es_admin', False))
 
 
 @app.route('/logout')
@@ -157,6 +185,104 @@ def logout():
     session.clear()
     flash('Sesión cerrada correctamente', 'info')
     return redirect(url_for('inicio'))
+
+
+# ============================================================
+# 👑 PANEL DE ADMINISTRACIÓN
+# ============================================================
+
+@app.route('/admin')
+def admin_panel():
+    # Verificar si el usuario es administrador
+    if not session.get('es_admin', False):
+        flash('Acceso denegado. Se requieren permisos de administrador.', 'error')
+        return redirect(url_for('inicio'))
+    
+    # Obtener lista de usuarios
+    lista_usuarios = []
+    for email, datos in usuarios_db.items():
+        lista_usuarios.append({
+            'id': datos['id'],
+            'nombre': datos['nombre'],
+            'email': email,
+            'rol': datos.get('rol', 'usuario')
+        })
+    
+    # Estadísticas
+    total_usuarios = len(usuarios_db)
+    total_admins = sum(1 for u in usuarios_db.values() if u.get('rol') == 'admin')
+    total_usuarios_normales = total_usuarios - total_admins
+    
+    return render_template('admin.html',
+                           lista_usuarios=lista_usuarios,
+                           total_usuarios=total_usuarios,
+                           total_admins=total_admins,
+                           total_usuarios_normales=total_usuarios_normales,
+                           NOMBRE_SITIO=NOMBRE_SITIO,
+                           TEXTO_BIENVENIDA=TEXTO_BIENVENIDA,
+                           TEXTO_FOOTER=TEXTO_FOOTER,
+                           TEXTO_AÑO=TEXTO_AÑO,
+                           NOMBRE_INICIO=NOMBRE_INICIO,
+                           NOMBRE_CONSULTAS=NOMBRE_CONSULTAS,
+                           NOMBRE_ACERCA=NOMBRE_ACERCA,
+                           usuario_actual=session.get('usuario_id'),
+                           es_admin=session.get('es_admin', False))
+
+
+@app.route('/admin/eliminar-usuario/<int:usuario_id>')
+def eliminar_usuario(usuario_id):
+    if not session.get('es_admin', False):
+        flash('Acceso denegado', 'error')
+        return redirect(url_for('inicio'))
+    
+    # No permitir eliminar al propio admin
+    if usuario_id == session.get('usuario_id'):
+        flash('No puedes eliminarte a ti mismo', 'error')
+        return redirect(url_for('admin_panel'))
+    
+    # Buscar y eliminar usuario
+    for email, datos in list(usuarios_db.items()):
+        if datos['id'] == usuario_id:
+            del usuarios_db[email]
+            flash(f'Usuario eliminado correctamente', 'success')
+            break
+    
+    return redirect(url_for('admin_panel'))
+
+
+@app.route('/admin/hacer-admin/<int:usuario_id>')
+def hacer_admin(usuario_id):
+    if not session.get('es_admin', False):
+        flash('Acceso denegado', 'error')
+        return redirect(url_for('inicio'))
+    
+    for email, datos in usuarios_db.items():
+        if datos['id'] == usuario_id:
+            datos['rol'] = 'admin'
+            flash(f'Usuario {datos["nombre"]} ahora es administrador', 'success')
+            break
+    
+    return redirect(url_for('admin_panel'))
+
+
+@app.route('/admin/quitar-admin/<int:usuario_id>')
+def quitar_admin(usuario_id):
+    if not session.get('es_admin', False):
+        flash('Acceso denegado', 'error')
+        return redirect(url_for('inicio'))
+    
+    # No permitir quitar admin al propio usuario
+    if usuario_id == session.get('usuario_id'):
+        flash('No puedes quitarte permisos a ti mismo', 'error')
+        return redirect(url_for('admin_panel'))
+    
+    for email, datos in usuarios_db.items():
+        if datos['id'] == usuario_id:
+            datos['rol'] = 'usuario'
+            flash(f'Usuario {datos["nombre"]} ya no es administrador', 'success')
+            break
+    
+    return redirect(url_for('admin_panel'))
 
 
 # ============================================================
@@ -181,7 +307,8 @@ def ver_categoria(nombre_categoria):
                            NOMBRE_CONSULTAS=NOMBRE_CONSULTAS,
                            NOMBRE_ACERCA=NOMBRE_ACERCA,
                            COLOR_AZUL=COLOR_AZUL,
-                           usuario_actual=session.get('usuario_id'))
+                           usuario_actual=session.get('usuario_id'),
+                           es_admin=session.get('es_admin', False))
 
 
 @app.route('/base-datos/<nombre_categoria>')
@@ -211,7 +338,8 @@ def ver_base_datos(nombre_categoria):
                            NOMBRE_CONSULTAS=NOMBRE_CONSULTAS,
                            NOMBRE_ACERCA=NOMBRE_ACERCA,
                            COLOR_AZUL=COLOR_AZUL,
-                           usuario_actual=session.get('usuario_id'))
+                           usuario_actual=session.get('usuario_id'),
+                           es_admin=session.get('es_admin', False))
 
 
 # ============================================================
@@ -241,7 +369,8 @@ def enviar_consulta():
                            NOMBRE_CONSULTAS=NOMBRE_CONSULTAS,
                            NOMBRE_ACERCA=NOMBRE_ACERCA,
                            COLOR_AZUL=COLOR_AZUL,
-                           usuario_actual=session.get('usuario_id'))
+                           usuario_actual=session.get('usuario_id'),
+                           es_admin=session.get('es_admin', False))
 
 
 if __name__ == '__main__':

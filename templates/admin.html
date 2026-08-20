@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+
+{% block titulo %}{{ NOMBRE_SITIO }} - Panel de Administración{% endblock %}
+
+{% block contenido %}
+<div class="content-card">
+    <h2>👑 Panel de Administración</h2>
+    <p class="sub">Gestiona los usuarios del sistema</p>
+
+    <!-- Estadísticas -->
+    <div style="display:grid; grid-template-columns:repeat(3, 1fr); gap:16px; margin-bottom:24px;">
+        <div style="background:#F8F6F1; padding:16px 20px; border-radius:10px; text-align:center;">
+            <span style="font-size:2rem; font-weight:700; color:#C9A84C; display:block;">{{ total_usuarios }}</span>
+            <span style="color:#6a7a8a; font-size:0.85rem;">Total usuarios</span>
+        </div>
+        <div style="background:#F8F6F1; padding:16px 20px; border-radius:10px; text-align:center;">
+            <span style="font-size:2rem; font-weight:700; color:#C9A84C; display:block;">{{ total_admins }}</span>
+            <span style="color:#6a7a8a; font-size:0.85rem;">Administradores</span>
+        </div>
+        <div style="background:#F8F6F1; padding:16px 20px; border-radius:10px; text-align:center;">
+            <span style="font-size:2rem; font-weight:700; color:#C9A84C; display:block;">{{ total_usuarios_normales }}</span>
+            <span style="color:#6a7a8a; font-size:0.85rem;">Usuarios normales</span>
+        </div>
+    </div>
+
+    <!-- Lista de usuarios -->
+    <h3 style="color:#1A3A5C; margin-bottom:12px;">Lista de usuarios</h3>
+    <div style="overflow-x:auto;">
+        <table style="width:100%; border-collapse:collapse; font-size:0.9rem;">
+            <thead>
+                <tr style="background:#1A3A5C; color:white;">
+                    <th style="padding:10px 16px; text-align:left;">ID</th>
+                    <th style="padding:10px 16px; text-align:left;">Nombre</th>
+                    <th style="padding:10px 16px; text-align:left;">Email</th>
+                    <th style="padding:10px 16px; text-align:left;">Rol</th>
+                    <th style="padding:10px 16px; text-align:left;">Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for usuario in lista_usuarios %}
+                    <tr style="border-bottom:1px solid #F0EDE8;">
+                        <td style="padding:10px 16px;">{{ usuario.id }}</td>
+                        <td style="padding:10px 16px; font-weight:500;">{{ usuario.nombre }}</td>
+                        <td style="padding:10px 16px;">{{ usuario.email }}</td>
+                        <td style="padding:10px 16px;">
+                            {% if usuario.rol == 'admin' %}
+                                <span style="background:#C9A84C; color:#0F1B33; padding:2px 12px; border-radius:12px; font-size:0.75rem; font-weight:600;">Admin</span>
+                            {% else %}
+                                <span style="background:#E8E3DC; color:#6a7a8a; padding:2px 12px; border-radius:12px; font-size:0.75rem; font-weight:600;">Usuario</span>
+                            {% endif %}
+                        </td>
+                        <td style="padding:10px 16px;">
+                            {% if usuario.id != session.get('usuario_id') %}
+                                <div style="display:flex; gap:8px; flex-wrap:wrap;">
+                                    {% if usuario.rol == 'admin' %}
+                                        <a href="/admin/quitar-admin/{{ usuario.id }}" class="btn-action" style="background:#e67e22; color:white; padding:4px 12px; border-radius:6px; text-decoration:none; font-size:0.75rem;">Quitar admin</a>
+                                    {% else %}
+                                        <a href="/admin/hacer-admin/{{ usuario.id }}" class="btn-action" style="background:#27ae60; color:white; padding:4px 12px; border-radius:6px; text-decoration:none; font-size:0.75rem;">Hacer admin</a>
+                                    {% endif %}
+                                    <a href="/admin/eliminar-usuario/{{ usuario.id }}" class="btn-action" style="background:#e74c3c; color:white; padding:4px 12px; border-radius:6px; text-decoration:none; font-size:0.75rem;" onclick="return confirm('¿Eliminar este usuario?')">Eliminar</a>
+                                </div>
+                            {% else %}
+                                <span style="color:#6a7a8a; font-size:0.75rem;">(Tú)</span>
+                            {% endif %}
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

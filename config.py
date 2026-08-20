@@ -48,6 +48,9 @@ EJEMPLOS_CONSULTAS = [
 
 SECRET_KEY = "clave-super-secreta-para-desarrollo-cambia-en-produccion"
 
+# ============================================================
+# 📊 DATOS DE CATEGORÍAS Y BASES DE DATOS
+# ===============
 
 INFORMACION_CATEGORIAS = {
     "tecnologia": {
@@ -119,3 +122,7 @@ INFORMACION_CATEGORIAS = {
         ]
     }
 }
+
+ADMIN_EMAIL = "admin@jusdata.com"
+ADMIN_PASSWORD = "admin123" 
+ADMIN_NOMBRE = "Administrador JUSDATA"

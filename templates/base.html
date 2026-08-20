@@ -16,17 +16,17 @@
                 <a href="/" {% if request.endpoint == 'inicio' %}class="active"{% endif %}>{{ NOMBRE_INICIO }}</a>
                 <a href="/consultas" {% if request.endpoint == 'consultas' %}class="active"{% endif %}>{{ NOMBRE_CONSULTAS }}</a>
                 <a href="/acerca" {% if request.endpoint == 'acerca' %}class="active"{% endif %}>{{ NOMBRE_ACERCA }}</a>
+                {% if es_admin %}
+                    <a href="/admin" {% if request.path == '/admin' %}class="active"{% endif %} style="color:#C9A84C;">👑 Admin</a>
+                {% endif %}
             </nav>
         </header>
 
         <div class="body-wrapper">
             <!-- SIDEBAR -->
             <aside class="sidebar">
-                <!-- ========================================== -->
-                <!-- PERFIL DE USUARIO                          -->
-                <!-- ========================================== -->
+                <!-- Perfil de usuario -->
                 {% if usuario_actual %}
-                    <!-- Usuario logueado -->
                     <div class="user-profile logged-in">
                         <div class="avatar">
                             {{ session.get('usuario_nombre', 'U')[0]|upper }}
@@ -38,7 +38,6 @@
                         </div>
                     </div>
                 {% else %}
-                    <!-- Usuario no logueado -->
                     <div class="user-profile logged-out">
                         <div class="avatar">?</div>
                         <div class="user-info">
@@ -76,11 +75,18 @@
                 <a href="#" class="menu-item" onclick="alert('Próximamente')">
                     <span class="icon">⚖️</span> Nulidad de matrimonios
                 </a>
+
+                <!-- Panel de Administración (solo para admin) -->
+                {% if es_admin %}
+                    <div class="section-title">👑 Administración</div>
+                    <a href="/admin" class="menu-item {% if request.path == '/admin' %}active{% endif %}">
+                        <span class="icon">⚙️</span> Panel de control
+                    </a>
+                {% endif %}
             </aside>
 
             <!-- CONTENIDO -->
             <main class="content">
-                <!-- Mensajes flash -->
                 {% with mensajes = get_flashed_messages(with_categories=true) %}
                     {% if mensajes %}
                         {% for categoria, mensaje in mensajes %}
