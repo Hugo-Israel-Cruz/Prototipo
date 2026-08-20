@@ -1,4 +1,8 @@
+# ============================================================
+# 🎨 CONFIGURACIÓN - Colores, textos y datos
+# ============================================================
 
+# ---------- COLORES ----------
 COLOR_DORADO = "#C9A84C"
 COLOR_DORADO_OSCURO = "#B8943A"
 COLOR_DORADO_BORDE = "#A07D2E"
@@ -13,7 +17,7 @@ COLOR_BLANCO = "#FFFFFF"
 COLOR_GRIS = "#F8F6F1"
 COLOR_GRIS_BORDE = "#C9A84C"
 
-
+# ---------- TEXTOS ----------
 NOMBRE_SITIO = "JUSDATA"
 TEXTO_BIENVENIDA = "Sistema de consultas"
 TEXTO_FORMULARIO = "Nueva consulta"
@@ -23,12 +27,12 @@ TEXTO_EJEMPLOS = "Consultas de ejemplo"
 TEXTO_FOOTER = "Sistema profesional de gestión de consultas"
 TEXTO_AÑO = "2026"
 
-
+# ---------- NOMBRES DEL MENÚ ----------
 NOMBRE_INICIO = "Inicio"
 NOMBRE_CONSULTAS = "Mis consultas"
 NOMBRE_ACERCA = "Acerca de"
 
-
+# ---------- CATEGORÍAS ----------
 CATEGORIAS = [
     {"valor": "general", "texto": "General"},
     {"valor": "tecnologia", "texto": "Tecnología"},
@@ -37,7 +41,7 @@ CATEGORIAS = [
     {"valor": "negocios", "texto": "Negocios"},
 ]
 
-
+# ---------- EJEMPLOS ----------
 EJEMPLOS_CONSULTAS = [
     {"texto": "Fundamentos de programación orientada a objetos", "categoria": "Tecnología"},
     {"texto": "Cómo mejorar la productividad en el trabajo", "categoria": "Negocios"},
@@ -49,7 +53,6 @@ EJEMPLOS_CONSULTAS = [
 # 🔐 CONFIGURACIÓN DE SEGURIDAD
 # ============================================================
 
-# Clave secreta para las sesiones (cambia esto)
 SECRET_KEY = "clave-super-secreta-para-desarrollo-cambia-en-produccion"
 
 # ============================================================
@@ -64,7 +67,6 @@ INFORMACION_CATEGORIAS = {
         "datos": [
             {"id": 1, "nombre": "Python", "descripcion": "Lenguaje de programación", "nivel": "Intermedio"},
             {"id": 2, "nombre": "Machine Learning", "descripcion": "Inteligencia artificial", "nivel": "Avanzado"},
-            {"id": 3, "nombre": "Cloud Computing", "descripcion": "Computación en la nube", "nivel": "Intermedio"},
         ]
     },
     "negocios": {

@@ -4,17 +4,17 @@
 
 {% block contenido %}
 <div class="content-card" style="text-align:center;">
-    <span class="check">✓</span>
-    <h2 style="color:{{ COLOR_AZUL }};">Consulta enviada</h2>
-    <p class="sub" style="color:#4a6a7a;">Su consulta ha sido recibida correctamente.</p>
-    <div class="detail-box">
-        <p><strong>Nombre:</strong> {{ nombre }}</p>
-        <p><strong>Categoría:</strong> <span class="gold-text">{{ nombre_categoria }}</span></p>
-        <p><strong>Pregunta:</strong> {{ pregunta }}</p>
+    <span style="color:#C9A84C; font-size:2.8rem; display:block; margin-bottom:8px;">✓</span>
+    <h2 style="color:#1A3A5C;">Consulta enviada</h2>
+    <p style="color:#4a6a7a; font-size:0.95rem;">Su consulta ha sido recibida correctamente.</p>
+    <div style="background:#F8F6F1; border-radius:12px; padding:18px 22px; margin:14px 0 18px; text-align:left; border:1px solid #D4C08A;">
+        <p style="margin:6px 0; color:#1A3A5C; font-size:0.95rem;"><strong>Nombre:</strong> {{ nombre }}</p>
+        <p style="margin:6px 0; color:#1A3A5C; font-size:0.95rem;"><strong>Categoría:</strong> <span style="color:#C9A84C; font-weight:600;">{{ nombre_categoria }}</span></p>
+        <p style="margin:6px 0; color:#1A3A5C; font-size:0.95rem;"><strong>Pregunta:</strong> {{ pregunta }}</p>
     </div>
     <p style="color: #4a6a7a; margin-bottom: 16px; font-size: 0.95rem;">
         En breve recibirá una respuesta a su consulta.
     </p>
-    <a href="/" class="btn">Realizar otra consulta</a>
+    <a href="/" class="btn" style="display:inline-block; background:#C9A84C; color:#FFFFFF; padding:12px 32px; border-radius:12px; text-decoration:none; font-weight:600; font-size:0.9rem; transition:all 0.3s ease;">Realizar otra consulta</a>
 </div>
 {% endblock %}

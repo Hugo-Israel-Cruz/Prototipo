@@ -9,7 +9,7 @@
 </head>
 <body>
     <div class="main-wrapper">
-        <!-- HEADER (solo logo y navegación principal) -->
+        <!-- HEADER -->
         <header class="header">
             <div class="logo">⚖️ {{ NOMBRE_SITIO }} <span>✦</span> {{ TEXTO_BIENVENIDA }}</div>
             <nav class="nav">
@@ -23,7 +23,7 @@
             <!-- SIDEBAR -->
             <aside class="sidebar">
                 <!-- ========================================== -->
-                <!-- PERFIL DE USUARIO (con login/registro)     -->
+                <!-- PERFIL DE USUARIO                          -->
                 <!-- ========================================== -->
                 {% if usuario_actual %}
                     <!-- Usuario logueado -->
@@ -80,6 +80,20 @@
 
             <!-- CONTENIDO -->
             <main class="content">
+                <!-- Mensajes flash -->
+                {% with mensajes = get_flashed_messages(with_categories=true) %}
+                    {% if mensajes %}
+                        {% for categoria, mensaje in mensajes %}
+                            <div style="padding:12px 16px; border-radius:10px; margin-bottom:16px; 
+                                {% if categoria == 'error' %}background:#fde8e8; color:#c0392b; border:1px solid #f5c6c6;
+                                {% elif categoria == 'success' %}background:#e8f5e9; color:#27ae60; border:1px solid #c8e6c9;
+                                {% else %}background:#e3f2fd; color:#1a3a5c; border:1px solid #bbdefb;{% endif %}">
+                                {{ mensaje }}
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+                {% endwith %}
+
                 {% block contenido %}
                 {% endblock %}
             </main>
