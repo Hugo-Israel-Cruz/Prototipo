@@ -1,568 +1,162 @@
 /* ============================================================
-   ESTILOS GLOBALES - JUSDATA (Diseño sin bordes)
+   PERFIL DE USUARIO EN SIDEBAR
    ============================================================ */
 
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
-body {
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-    min-height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: flex-start;
-    background: #F0EDE8;
-    padding: 0;
-    margin: 0;
-}
-
-/* ============================================================
-   CONTENEDOR PRINCIPAL
-   ============================================================ */
-.main-wrapper {
-    max-width: 1400px;
-    width: 100%;
-    min-height: 100vh;
-    background: #F0EDE8;
-    display: flex;
-    flex-direction: column;
-    position: relative;
-}
-
-/* ============================================================
-   HEADER (Barra superior)
-   ============================================================ */
-.header {
-    background: #0F1B33;
-    padding: 14px 32px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    border-bottom: 2px solid #C9A84C;
-    position: sticky;
-    top: 0;
-    z-index: 100;
-    box-shadow: 0 2px 12px rgba(0,0,0,0.08);
-}
-
-.logo {
-    font-size: 1.4rem;
-    font-weight: 700;
-    color: #FFFFFF;
-    letter-spacing: -0.3px;
-}
-
-.logo span {
-    color: #C9A84C;
-}
-
-.nav {
-    display: flex;
-    gap: 28px;
-    font-weight: 500;
-    font-size: 0.9rem;
-    align-items: center;
-}
-
-.nav a {
-    color: rgba(255, 255, 255, 0.75);
-    text-decoration: none;
-    transition: all 0.3s ease;
-    padding: 6px 0;
-    position: relative;
-}
-
-.nav a::after {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 0;
-    height: 2px;
-    background: #C9A84C;
-    transition: width 0.3s ease;
-}
-
-.nav a:hover {
-    color: #FFFFFF;
-}
-
-.nav a:hover::after,
-.nav a.active::after {
-    width: 100%;
-}
-
-.nav a.active {
-    color: #FFFFFF;
-}
-
-.nav .user-info {
-    color: rgba(255, 255, 255, 0.6);
-    font-size: 0.8rem;
-    padding: 6px 14px;
-    background: rgba(255,255,255,0.06);
-    border-radius: 20px;
-    border: 1px solid rgba(255,255,255,0.08);
-}
-
-.nav .user-info a {
-    color: #C9A84C;
-    text-decoration: none;
-    font-weight: 500;
-}
-
-/* ============================================================
-   BODY WRAPPER (Sidebar + Content)
-   ============================================================ */
-.body-wrapper {
-    display: flex;
-    gap: 0;
-    flex: 1;
-    min-height: calc(100vh - 120px);
-}
-
-/* ============================================================
-   SIDEBAR (Barra lateral izquierda)
-   ============================================================ */
-.sidebar {
-    width: 280px;
-    min-width: 240px;
-    background: #1A3A5C;
-    padding: 24px 16px 32px 16px;
-    display: flex;
-    flex-direction: column;
-    border-right: 2px solid #C9A84C;
-}
-
-/* Usuario en sidebar */
 .sidebar .user-profile {
     display: flex;
     align-items: center;
     gap: 14px;
-    padding: 12px 16px;
+    padding: 14px 16px;
     background: rgba(255,255,255,0.06);
     border-radius: 12px;
     margin-bottom: 24px;
-    border: 1px solid rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.06);
+    transition: all 0.3s ease;
+}
+
+.sidebar .user-profile:hover {
+    background: rgba(255,255,255,0.08);
+    border-color: rgba(201, 168, 76, 0.15);
 }
 
 .sidebar .user-profile .avatar {
-    width: 44px;
-    height: 44px;
+    width: 48px;
+    height: 48px;
+    min-width: 48px;
     border-radius: 50%;
     background: #C9A84C;
     display: flex;
     align-items: center;
     justify-content: center;
     font-size: 1.2rem;
-    font-weight: 600;
+    font-weight: 700;
     color: #0F1B33;
+}
+
+.sidebar .user-profile .user-info {
+    flex: 1;
+    min-width: 0;
 }
 
 .sidebar .user-profile .user-name {
     color: #FFFFFF;
-    font-weight: 500;
+    font-weight: 600;
     font-size: 0.95rem;
 }
 
 .sidebar .user-profile .user-email {
-    color: rgba(255,255,255,0.5);
-    font-size: 0.75rem;
-}
-
-/* Títulos de sección */
-.sidebar .section-title {
     color: rgba(255,255,255,0.4);
-    font-size: 0.65rem;
-    text-transform: uppercase;
-    letter-spacing: 1.2px;
-    font-weight: 600;
-    padding: 16px 16px 8px 16px;
-    border-bottom: 1px solid rgba(255,255,255,0.06);
-    margin-bottom: 8px;
+    font-size: 0.7rem;
+    margin-top: 1px;
+    word-break: break-all;
 }
 
-/* Items del menú */
-.sidebar .menu-item {
+/* Botones de autenticación */
+.sidebar .user-profile .auth-buttons {
     display: flex;
-    align-items: center;
-    gap: 14px;
-    color: rgba(255, 255, 255, 0.7);
+    gap: 8px;
+    margin-top: 8px;
+    flex-wrap: wrap;
+}
+
+.sidebar .user-profile .auth-btn {
+    display: inline-block;
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 600;
     text-decoration: none;
-    padding: 10px 16px;
-    border-radius: 10px;
-    font-size: 0.9rem;
-    font-weight: 450;
-    transition: all 0.25s ease;
-    margin-bottom: 2px;
+    transition: all 0.3s ease;
+    text-align: center;
+    font-family: 'Inter', sans-serif;
+    flex: 1;
+    min-width: 80px;
 }
 
-.sidebar .menu-item:hover {
-    background: rgba(201, 168, 76, 0.12);
+.sidebar .user-profile .login-btn {
+    background: transparent;
     color: #C9A84C;
-    transform: translateX(4px);
+    border: 1.5px solid #C9A84C;
 }
 
-.sidebar .menu-item.active {
+.sidebar .user-profile .login-btn:hover {
     background: #C9A84C;
     color: #0F1B33;
-    font-weight: 600;
-    box-shadow: 0 4px 16px rgba(201, 168, 76, 0.2);
+    transform: translateY(-1px);
 }
 
-.sidebar .menu-item .icon {
-    font-size: 1.2rem;
-    width: 28px;
-    text-align: center;
-}
-
-/* ============================================================
-   CONTENIDO PRINCIPAL
-   ============================================================ */
-.content {
-    flex: 1;
-    padding: 32px 40px 40px 40px;
-    background: #F0EDE8;
-}
-
-.content h1 {
-    font-size: 1.8rem;
-    font-weight: 700;
-    color: #1A3A5C;
-    margin-bottom: 6px;
-}
-
-.content .subtitle {
-    color: #6a7a8a;
-    font-size: 1rem;
-    margin-bottom: 28px;
-}
-
-/* ============================================================
-   TARJETAS DE CONTENIDO
-   ============================================================ */
-.content-card {
-    background: #FFFFFF;
-    border-radius: 16px;
-    padding: 28px 32px 32px;
-    box-shadow: 0 2px 16px rgba(0, 0, 0, 0.04);
-    margin-bottom: 24px;
-}
-
-.content-card h2 {
-    font-size: 1.2rem;
-    font-weight: 600;
-    color: #1A3A5C;
-    margin-bottom: 6px;
-}
-
-.content-card h2::after {
-    content: '';
-    display: block;
-    width: 40px;
-    height: 3px;
+.sidebar .user-profile .register-btn {
     background: #C9A84C;
-    margin-top: 6px;
-    border-radius: 4px;
+    color: #0F1B33;
+    border: 1.5px solid #C9A84C;
 }
 
-.content-card .sub {
-    color: #6a7a8a;
-    font-size: 0.9rem;
-    margin-bottom: 18px;
-}
-
-/* ============================================================
-   FORMULARIO
-   ============================================================ */
-.form-row {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 18px;
-    margin-bottom: 16px;
-}
-
-.form-group {
-    display: flex;
-    flex-direction: column;
-    gap: 5px;
-}
-
-.form-group.full {
-    grid-column: 1 / -1;
-}
-
-.form-group label {
-    font-weight: 500;
-    font-size: 0.82rem;
-    color: #1A3A5C;
-}
-
-.form-group label .required {
-    color: #c0392b;
-    font-weight: 400;
-}
-
-.form-group input,
-.form-group select,
-.form-group textarea {
-    padding: 11px 16px;
-    border: 2px solid #E8E3DC;
-    border-radius: 12px;
-    font-family: 'Inter', sans-serif;
-    font-size: 0.9rem;
-    background: #FFFFFF;
-    transition: all 0.3s ease;
-    color: #1A3A5C;
-}
-
-.form-group input:focus,
-.form-group select:focus,
-.form-group textarea:focus {
-    outline: none;
-    border-color: #C9A84C;
-    box-shadow: 0 0 0 4px rgba(201, 168, 76, 0.12);
-}
-
-.form-group textarea {
-    min-height: 90px;
-    resize: vertical;
-}
-
-.btn-submit {
-    background: #C9A84C;
-    color: #FFFFFF;
-    border: none;
-    padding: 13px 32px;
-    font-size: 0.95rem;
-    font-weight: 600;
-    border-radius: 12px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    width: 100%;
-    font-family: 'Inter', sans-serif;
-    letter-spacing: 0.3px;
-}
-
-.btn-submit:hover {
+.sidebar .user-profile .register-btn:hover {
     background: #B8943A;
-    transform: translateY(-2px);
-    box-shadow: 0 8px 30px rgba(201, 168, 76, 0.3);
+    border-color: #B8943A;
+    transform: translateY(-1px);
 }
 
-/* ============================================================
-   ESTADÍSTICAS
-   ============================================================ */
-.stats-grid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 16px;
-    margin-bottom: 28px;
-}
-
-.stat-card {
-    background: #FFFFFF;
-    border-radius: 14px;
-    padding: 20px 16px;
-    text-align: center;
-    transition: all 0.3s ease;
-    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.04);
-}
-
-.stat-card:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 8px 30px rgba(201, 168, 76, 0.12);
-}
-
-.stat-card .numero {
-    font-size: 2rem;
-    font-weight: 700;
-    color: #C9A84C;
-    display: block;
-    line-height: 1.2;
-}
-
-.stat-card .label {
-    font-size: 0.8rem;
-    color: #1A3A5C;
-    font-weight: 500;
-    margin-top: 4px;
-}
-
-/* ============================================================
-   EJEMPLOS
-   ============================================================ */
-.examples-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 12px;
-    margin-top: 12px;
-}
-
-.example-item {
-    background: #F8F6F1;
-    border: 2px solid #E8E3DC;
-    border-radius: 12px;
-    padding: 14px 18px;
-    font-size: 0.85rem;
-    color: #1A3A5C;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    text-align: center;
-    font-weight: 450;
+/* Cerrar sesión */
+.sidebar .user-profile .logout-btn {
+    display: inline-block;
+    margin-top: 6px;
+    color: #e74c3c;
+    font-size: 0.7rem;
     text-decoration: none;
-    display: block;
+    font-weight: 500;
+    transition: color 0.3s ease;
 }
 
-.example-item:hover {
-    border-color: #C9A84C;
-    background: #FFFFFF;
-    transform: translateY(-3px);
-    box-shadow: 0 8px 25px rgba(201, 168, 76, 0.15);
+.sidebar .user-profile .logout-btn:hover {
+    color: #ff6b6b;
+    text-decoration: underline;
 }
 
-.example-item .cat {
-    display: block;
-    font-size: 0.6rem;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    color: #C9A84C;
-    margin-top: 5px;
+.sidebar .user-profile.logged-in {
+    border-color: rgba(201, 168, 76, 0.2);
+}
+
+.sidebar .user-profile.logged-out {
+    border-color: rgba(255,255,255,0.04);
 }
 
 /* ============================================================
-   SEPARADOR
+   RESPONSIVE - Ajustes para móvil
    ============================================================ */
-.separator {
-    border: none;
-    border-top: 2px solid #E8E3DC;
-    margin: 22px 0 18px 0;
-}
-
-/* ============================================================
-   FOOTER
-   ============================================================ */
-.footer {
-    background: #0F1B33;
-    padding: 16px 40px;
-    text-align: center;
-    color: rgba(255, 255, 255, 0.5);
-    font-size: 0.8rem;
-    border-top: 2px solid #C9A84C;
-}
-
-.footer span {
-    color: #C9A84C;
-    font-weight: 600;
-}
-
-/* ============================================================
-   RESPONSIVE
-   ============================================================ */
-@media (max-width: 992px) {
-    .stats-grid {
-        grid-template-columns: repeat(2, 1fr);
-    }
-    .sidebar {
-        width: 220px;
-        min-width: 180px;
-    }
-    .content {
-        padding: 24px 24px 32px 24px;
-    }
-}
-
 @media (max-width: 768px) {
-    .header {
-        flex-direction: column;
-        padding: 12px 20px;
-        gap: 8px;
-        position: relative;
-    }
-    .nav {
-        gap: 16px;
-        font-size: 0.8rem;
-        flex-wrap: wrap;
-        justify-content: center;
-    }
-    .body-wrapper {
-        flex-direction: column;
-    }
-    .sidebar {
-        width: 100%;
-        min-width: unset;
-        flex-direction: row;
-        flex-wrap: wrap;
-        padding: 12px 16px;
-        border-right: none;
-        border-bottom: 2px solid #C9A84C;
-        gap: 4px;
-    }
     .sidebar .user-profile {
         width: 100%;
         margin-bottom: 12px;
     }
-    .sidebar .section-title {
-        width: 100%;
-        padding: 8px 12px 4px 12px;
+    
+    .sidebar .user-profile .auth-buttons {
+        flex-direction: row;
     }
-    .sidebar .menu-item {
-        padding: 8px 14px;
-        font-size: 0.82rem;
-    }
-    .content {
-        padding: 20px 16px 24px;
-    }
-    .form-row {
-        grid-template-columns: 1fr;
-        gap: 14px;
-    }
-    .stats-grid {
-        grid-template-columns: 1fr 1fr;
-        gap: 12px;
-    }
-    .stat-card .numero {
-        font-size: 1.6rem;
-    }
-    .content-card {
-        padding: 20px 18px 24px;
-    }
-    .footer {
-        padding: 14px 20px;
-        font-size: 0.75rem;
+    
+    .sidebar .user-profile .auth-btn {
+        flex: 1;
+        font-size: 0.7rem;
+        padding: 5px 10px;
+        min-width: 60px;
     }
 }
 
 @media (max-width: 480px) {
-    .nav {
-        gap: 10px;
-        font-size: 0.75rem;
+    .sidebar .user-profile .avatar {
+        width: 36px;
+        height: 36px;
+        min-width: 36px;
+        font-size: 0.9rem;
     }
-    .nav .user-info {
-        font-size: 0.7rem;
-        padding: 4px 10px;
+    
+    .sidebar .user-profile .user-name {
+        font-size: 0.8rem;
     }
-    .stats-grid {
-        grid-template-columns: 1fr 1fr;
-        gap: 10px;
-    }
-    .stat-card {
-        padding: 12px 10px;
-    }
-    .stat-card .numero {
-        font-size: 1.3rem;
-    }
-    .examples-grid {
-        grid-template-columns: 1fr;
-    }
-    .logo {
-        font-size: 1.1rem;
-    }
-    .content h1 {
-        font-size: 1.4rem;
+    
+    .sidebar .user-profile .auth-btn {
+        font-size: 0.65rem;
+        padding: 4px 8px;
+        min-width: 50px;
     }
 }

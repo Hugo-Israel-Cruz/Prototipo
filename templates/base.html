@@ -9,51 +9,48 @@
 </head>
 <body>
     <div class="main-wrapper">
-        <!-- HEADER -->
+        <!-- HEADER (solo logo y navegación principal) -->
         <header class="header">
             <div class="logo">⚖️ {{ NOMBRE_SITIO }} <span>✦</span> {{ TEXTO_BIENVENIDA }}</div>
             <nav class="nav">
                 <a href="/" {% if request.endpoint == 'inicio' %}class="active"{% endif %}>{{ NOMBRE_INICIO }}</a>
                 <a href="/consultas" {% if request.endpoint == 'consultas' %}class="active"{% endif %}>{{ NOMBRE_CONSULTAS }}</a>
                 <a href="/acerca" {% if request.endpoint == 'acerca' %}class="active"{% endif %}>{{ NOMBRE_ACERCA }}</a>
-                {% if usuario_actual %}
-                    <span class="user-info">👤 {{ session.get('usuario_nombre', 'Usuario') }} | <a href="/logout">Salir</a></span>
-                {% else %}
-                    <a href="/login">Iniciar sesión</a>
-                    <a href="/registro">Registrarse</a>
-                {% endif %}
             </nav>
         </header>
 
         <div class="body-wrapper">
             <!-- SIDEBAR -->
             <aside class="sidebar">
-                <!-- Perfil de usuario -->
-                <div class="user-profile">
-                    <div class="avatar">
-                        {% if usuario_actual %}
+                <!-- ========================================== -->
+                <!-- PERFIL DE USUARIO (con login/registro)     -->
+                <!-- ========================================== -->
+                {% if usuario_actual %}
+                    <!-- Usuario logueado -->
+                    <div class="user-profile logged-in">
+                        <div class="avatar">
                             {{ session.get('usuario_nombre', 'U')[0]|upper }}
-                        {% else %}
-                            ?
-                        {% endif %}
-                    </div>
-                    <div>
-                        <div class="user-name">
-                            {% if usuario_actual %}
-                                {{ session.get('usuario_nombre', 'Usuario') }}
-                            {% else %}
-                                Invitado
-                            {% endif %}
                         </div>
-                        <div class="user-email">
-                            {% if usuario_actual %}
-                                {{ session.get('usuario_email', '') }}
-                            {% else %}
-                                Inicia sesión
-                            {% endif %}
+                        <div class="user-info">
+                            <div class="user-name">{{ session.get('usuario_nombre', 'Usuario') }}</div>
+                            <div class="user-email">{{ session.get('usuario_email', '') }}</div>
+                            <a href="/logout" class="logout-btn">Cerrar sesión</a>
                         </div>
                     </div>
-                </div>
+                {% else %}
+                    <!-- Usuario no logueado -->
+                    <div class="user-profile logged-out">
+                        <div class="avatar">?</div>
+                        <div class="user-info">
+                            <div class="user-name">Invitado</div>
+                            <div class="user-email">Inicia sesión para acceder</div>
+                            <div class="auth-buttons">
+                                <a href="/login" class="auth-btn login-btn">Iniciar sesión</a>
+                                <a href="/registro" class="auth-btn register-btn">Registrarse</a>
+                            </div>
+                        </div>
+                    </div>
+                {% endif %}
 
                 <!-- Temas -->
                 <div class="section-title">📋 Temas</div>
