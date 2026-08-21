@@ -1,3 +1,7 @@
+/* ============================================================
+   ESTILOS GLOBALES - JUSDATA
+   ============================================================ */
+
 * {
     margin: 0;
     padding: 0;
@@ -25,6 +29,9 @@ body {
     position: relative;
 }
 
+/* ============================================================
+   HEADER
+   ============================================================ */
 .header {
     background: #0F1B33;
     padding: 14px 32px;
@@ -89,6 +96,9 @@ body {
     color: #FFFFFF;
 }
 
+/* ============================================================
+   BODY WRAPPER
+   ============================================================ */
 .body-wrapper {
     display: flex;
     gap: 0;
@@ -96,6 +106,9 @@ body {
     min-height: calc(100vh - 120px);
 }
 
+/* ============================================================
+   SIDEBAR
+   ============================================================ */
 .sidebar {
     width: 280px;
     min-width: 240px;
@@ -105,7 +118,6 @@ body {
     flex-direction: column;
     border-right: 2px solid #C9A84C;
 }
-
 
 .sidebar .user-profile {
     display: flex;
@@ -224,7 +236,6 @@ body {
     border-color: rgba(255,255,255,0.04);
 }
 
-/* ----- Títulos ----- */
 .sidebar .section-title {
     color: rgba(255,255,255,0.4);
     font-size: 0.65rem;
@@ -236,7 +247,6 @@ body {
     margin-bottom: 8px;
 }
 
-/* ----- Items del menú ----- */
 .sidebar .menu-item {
     display: flex;
     align-items: center;
@@ -270,6 +280,9 @@ body {
     text-align: center;
 }
 
+/* ============================================================
+   CONTENIDO PRINCIPAL
+   ============================================================ */
 .content {
     flex: 1;
     padding: 32px 40px 40px 40px;
@@ -320,6 +333,9 @@ body {
     margin-bottom: 18px;
 }
 
+/* ============================================================
+   FORMULARIO
+   ============================================================ */
 .form-row {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -395,6 +411,9 @@ body {
     box-shadow: 0 8px 30px rgba(201, 168, 76, 0.3);
 }
 
+/* ============================================================
+   ESTADÍSTICAS
+   ============================================================ */
 .stats-grid {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
@@ -431,51 +450,9 @@ body {
     margin-top: 4px;
 }
 
-.examples-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 12px;
-    margin-top: 12px;
-}
-
-.example-item {
-    background: #F8F6F1;
-    border: 2px solid #E8E3DC;
-    border-radius: 12px;
-    padding: 14px 18px;
-    font-size: 0.85rem;
-    color: #1A3A5C;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    text-align: center;
-    font-weight: 450;
-    text-decoration: none;
-    display: block;
-}
-
-.example-item:hover {
-    border-color: #C9A84C;
-    background: #FFFFFF;
-    transform: translateY(-3px);
-    box-shadow: 0 8px 25px rgba(201, 168, 76, 0.15);
-}
-
-.example-item .cat {
-    display: block;
-    font-size: 0.6rem;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    color: #C9A84C;
-    margin-top: 5px;
-}
-
-.separator {
-    border: none;
-    border-top: 2px solid #E8E3DC;
-    margin: 22px 0 18px 0;
-}
-
+/* ============================================================
+   FOOTER
+   ============================================================ */
 .footer {
     background: #0F1B33;
     padding: 16px 40px;
@@ -490,117 +467,9 @@ body {
     font-weight: 600;
 }
 
-.btn {
-    display: inline-block;
-    transition: all 0.3s ease;
-}
-
-.btn:hover {
-    transform: translateY(-2px);
-}
-
-.empty-state {
-    text-align: center;
-    padding: 40px 20px;
-}
-
-.empty-state .icon {
-    font-size: 3rem;
-    color: #C9A84C;
-    display: block;
-    margin-bottom: 12px;
-    opacity: 0.6;
-}
-
-.empty-state h2 {
-    color: #1A3A5C;
-    font-weight: 600;
-    font-size: 1.3rem;
-    margin-bottom: 6px;
-}
-
-.empty-state p {
-    color: #6a7a8a;
-    font-size: 0.95rem;
-}
-
-.about-content h2 {
-    color: #1A3A5C;
-    font-weight: 600;
-    font-size: 1.2rem;
-    margin-bottom: 8px;
-    margin-top: 18px;
-}
-
-.about-content h2:first-of-type {
-    margin-top: 0;
-}
-
-.about-content h2::after {
-    content: '';
-    display: block;
-    width: 30px;
-    height: 3px;
-    background: #C9A84C;
-    margin-top: 4px;
-    border-radius: 4px;
-}
-
-.about-content p {
-    color: #4a5a6a;
-    line-height: 1.7;
-    margin-bottom: 8px;
-    font-size: 0.95rem;
-}
-
-.about-content ul {
-    padding-left: 22px;
-    color: #4a5a6a;
-    line-height: 1.8;
-    font-size: 0.95rem;
-}
-
-.about-content ul li {
-    margin-bottom: 4px;
-}
-
-.about-content .gold {
-    color: #C9A84C;
-    font-weight: 600;
-}
-
-.detail-box {
-    background: #F8F6F1;
-    border-radius: 12px;
-    padding: 18px 22px;
-    margin: 14px 0 18px;
-    text-align: left;
-    border: 1px solid #D4C08A;
-}
-
-.detail-box p {
-    margin: 6px 0;
-    color: #1A3A5C;
-    font-size: 0.95rem;
-}
-
-.detail-box strong {
-    color: #1A3A5C;
-    font-weight: 600;
-}
-
-.detail-box .gold-text {
-    color: #C9A84C;
-    font-weight: 600;
-}
-
-.check {
-    color: #C9A84C;
-    font-size: 2.8rem;
-    display: block;
-    margin-bottom: 8px;
-}
-
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
 @media (max-width: 992px) {
     .stats-grid {
         grid-template-columns: repeat(2, 1fr);
@@ -712,9 +581,6 @@ body {
     }
     .stat-card .numero {
         font-size: 1.3rem;
-    }
-    .examples-grid {
-        grid-template-columns: 1fr;
     }
     .logo {
         font-size: 1.1rem;

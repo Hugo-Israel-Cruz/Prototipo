@@ -114,7 +114,6 @@ def registro():
             flash('El correo electrónico ya está registrado', 'error')
             return redirect(url_for('registro'))
 
-        # Los nuevos usuarios son normales por defecto
         usuarios_db[email] = {
             'id': contador_ids,
             'nombre': nombre,
@@ -159,7 +158,6 @@ def login():
             flash('Correo o contraseña incorrectos', 'error')
             return redirect(url_for('login'))
 
-        # Iniciar sesión
         session['usuario_id'] = usuario['id']
         session['usuario_nombre'] = usuario['nombre']
         session['usuario_email'] = usuario['email']
@@ -193,12 +191,10 @@ def logout():
 
 @app.route('/admin')
 def admin_panel():
-    # Verificar si el usuario es administrador
     if not session.get('es_admin', False):
         flash('Acceso denegado. Se requieren permisos de administrador.', 'error')
         return redirect(url_for('inicio'))
     
-    # Obtener lista de usuarios
     lista_usuarios = []
     for email, datos in usuarios_db.items():
         lista_usuarios.append({
@@ -208,7 +204,6 @@ def admin_panel():
             'rol': datos.get('rol', 'usuario')
         })
     
-    # Estadísticas
     total_usuarios = len(usuarios_db)
     total_admins = sum(1 for u in usuarios_db.values() if u.get('rol') == 'admin')
     total_usuarios_normales = total_usuarios - total_admins
@@ -235,16 +230,14 @@ def eliminar_usuario(usuario_id):
         flash('Acceso denegado', 'error')
         return redirect(url_for('inicio'))
     
-    # No permitir eliminar al propio admin
     if usuario_id == session.get('usuario_id'):
         flash('No puedes eliminarte a ti mismo', 'error')
         return redirect(url_for('admin_panel'))
     
-    # Buscar y eliminar usuario
     for email, datos in list(usuarios_db.items()):
         if datos['id'] == usuario_id:
             del usuarios_db[email]
-            flash(f'Usuario eliminado correctamente', 'success')
+            flash('Usuario eliminado correctamente', 'success')
             break
     
     return redirect(url_for('admin_panel'))
@@ -271,7 +264,6 @@ def quitar_admin(usuario_id):
         flash('Acceso denegado', 'error')
         return redirect(url_for('inicio'))
     
-    # No permitir quitar admin al propio usuario
     if usuario_id == session.get('usuario_id'):
         flash('No puedes quitarte permisos a ti mismo', 'error')
         return redirect(url_for('admin_panel'))
@@ -295,6 +287,21 @@ def ver_categoria(nombre_categoria):
     if not categoria:
         flash('Categoría no encontrada', 'error')
         return redirect(url_for('inicio'))
+    
+    # Si es la categoría de divorcios, usar la plantilla especial
+    if nombre_categoria == 'divorcios':
+        return render_template('divorcios.html',
+                               datos=DATOS_DIVORCIOS,
+                               NOMBRE_SITIO=NOMBRE_SITIO,
+                               TEXTO_BIENVENIDA=TEXTO_BIENVENIDA,
+                               TEXTO_FOOTER=TEXTO_FOOTER,
+                               TEXTO_AÑO=TEXTO_AÑO,
+                               NOMBRE_INICIO=NOMBRE_INICIO,
+                               NOMBRE_CONSULTAS=NOMBRE_CONSULTAS,
+                               NOMBRE_ACERCA=NOMBRE_ACERCA,
+                               COLOR_AZUL=COLOR_AZUL,
+                               usuario_actual=session.get('usuario_id'),
+                               es_admin=session.get('es_admin', False))
     
     return render_template('categoria.html',
                            categoria=nombre_categoria,

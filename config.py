@@ -1,3 +1,8 @@
+# ============================================================
+# 🎨 CONFIGURACIÓN - Colores, textos y datos
+# ============================================================
+
+# ---------- COLORES ----------
 COLOR_DORADO = "#C9A84C"
 COLOR_DORADO_OSCURO = "#B8943A"
 COLOR_DORADO_BORDE = "#A07D2E"
@@ -12,7 +17,7 @@ COLOR_BLANCO = "#FFFFFF"
 COLOR_GRIS = "#F8F6F1"
 COLOR_GRIS_BORDE = "#C9A84C"
 
-
+# ---------- TEXTOS ----------
 NOMBRE_SITIO = "JUSDATA"
 TEXTO_BIENVENIDA = "Sistema de consultas"
 TEXTO_FORMULARIO = "Nueva consulta"
@@ -22,12 +27,12 @@ TEXTO_EJEMPLOS = "Consultas de ejemplo"
 TEXTO_FOOTER = "Sistema profesional de gestión de consultas"
 TEXTO_AÑO = "2026"
 
-
+# ---------- NOMBRES DEL MENÚ ----------
 NOMBRE_INICIO = "Inicio"
 NOMBRE_CONSULTAS = "Mis consultas"
 NOMBRE_ACERCA = "Acerca de"
 
-
+# ---------- CATEGORÍAS ----------
 CATEGORIAS = [
     {"valor": "general", "texto": "General"},
     {"valor": "tecnologia", "texto": "Tecnología"},
@@ -36,7 +41,7 @@ CATEGORIAS = [
     {"valor": "negocios", "texto": "Negocios"},
 ]
 
-
+# ---------- EJEMPLOS ----------
 EJEMPLOS_CONSULTAS = [
     {"texto": "Fundamentos de programación orientada a objetos", "categoria": "Tecnología"},
     {"texto": "Cómo mejorar la productividad en el trabajo", "categoria": "Negocios"},
@@ -44,13 +49,23 @@ EJEMPLOS_CONSULTAS = [
     {"texto": "Cómo mantener una alimentación saludable", "categoria": "Salud"},
 ]
 
-
+# ============================================================
+# 🔐 CONFIGURACIÓN DE SEGURIDAD
+# ============================================================
 
 SECRET_KEY = "clave-super-secreta-para-desarrollo-cambia-en-produccion"
 
 # ============================================================
+# 👑 CONFIGURACIÓN DE ADMINISTRADOR
+# ============================================================
+
+ADMIN_EMAIL = "admin@jusdata.com"
+ADMIN_PASSWORD = "admin123"
+ADMIN_NOMBRE = "Administrador JUSDATA"
+
+# ============================================================
 # 📊 DATOS DE CATEGORÍAS Y BASES DE DATOS
-# ===============
+# ============================================================
 
 INFORMACION_CATEGORIAS = {
     "tecnologia": {
@@ -120,9 +135,110 @@ INFORMACION_CATEGORIAS = {
             {"ejercicio": 2026, "trimestre": "Segundo", "mandato_encargo": "FPMANTE", "sexo": "Hombre", "mto_pension_min": 12240.16, "mto_pension_max": 12240.16, "per_monto": "Mensual", "edad_promedio": 85.5, "tipo_moneda": "Moneda Nacional"},
             {"ejercicio": 2026, "trimestre": "Segundo", "mandato_encargo": "FPMANTE", "sexo": "Mujer", "mto_pension_min": 2450.68, "mto_pension_max": 2450.68, "per_monto": "Mensual", "edad_promedio": 95.5, "tipo_moneda": "Moneda Nacional"},
         ]
+    },
+    "divorcios": {
+        "titulo": "Estadística de Divorcios 2024",
+        "descripcion": "Información sobre divorcios en México durante el año 2024. Datos del INEGI sobre causas, características de las personas divorciantes, duración del matrimonio y más.",
+        "institucion": "Instituto Nacional de Estadística y Geografía (INEGI)",
+        "categoria": "Legal / Demografía",
+        "datos": {}
     }
 }
 
-ADMIN_EMAIL = "admin@jusdata.com"
-ADMIN_PASSWORD = "admin123" 
-ADMIN_NOMBRE = "Administrador JUSDATA"
+# ============================================================
+# 📊 DATOS DE DIVORCIOS (desde el PDF del INEGI)
+# ============================================================
+
+DATOS_DIVORCIOS = {
+    "resumen": {
+        "total_divorcios": 161932,
+        "judiciales": 145091,
+        "administrativos": 16841,
+        "tasa_2024": 1.79,
+        "tasa_2015": 1.52,
+        "mujeres_hombres": 161249,
+        "mujeres_mujeres": 439,
+        "hombres_hombres": 244
+    },
+    "causas": [
+        {"causa": "Divorcio incausado", "porcentaje": 67.2},
+        {"causa": "Mutuo consentimiento", "porcentaje": 31.3},
+        {"causa": "Separación del hogar por más de 1 año", "porcentaje": 0.8},
+        {"causa": "Otras causas", "porcentaje": 0.7}
+    ],
+    "duracion_matrimonio": [
+        {"rango": "Menos de 1 año", "porcentaje": 1.6},
+        {"rango": "1 a 5 años", "porcentaje": 19.4},
+        {"rango": "6 a 9 años", "porcentaje": 15.1},
+        {"rango": "10 a 15 años", "porcentaje": 17.9},
+        {"rango": "16 a 20 años", "porcentaje": 11.7},
+        {"rango": "21 años y más", "porcentaje": 33.8}
+    ],
+    "edad_promedio": {
+        "mujeres": 41.1,
+        "hombres": 43.6
+    },
+    "hijos_menores": [
+        {"rango": "Sin hijos", "porcentaje": 55.1},
+        {"rango": "1 hijo/a", "porcentaje": 22.5},
+        {"rango": "2 hijos/as", "porcentaje": 16.2},
+        {"rango": "Más de 2", "porcentaje": 5.5},
+        {"rango": "No especificado", "porcentaje": 0.7}
+    ],
+    "custodia": [
+        {"rango": "A una de las partes", "porcentaje": 38.2},
+        {"rango": "A ninguna", "porcentaje": 55.1},
+        {"rango": "A ambas", "porcentaje": 5.9},
+        {"rango": "No especificado", "porcentaje": 0.8}
+    ],
+    "patria_potestad": [
+        {"rango": "A ambas partes", "porcentaje": 38.46},
+        {"rango": "A una parte", "porcentaje": 5.69},
+        {"rango": "A ninguna", "porcentaje": 55.13},
+        {"rango": "No especificado", "porcentaje": 0.72}
+    ],
+    "pension_alimenticia": [
+        {"rango": "A hijas/os", "porcentaje": 38.6},
+        {"rango": "A cónyuge", "porcentaje": 0.0},
+        {"rango": "No asignada", "porcentaje": 61.4}
+    ],
+    "escolaridad_mujeres": [
+        {"nivel": "Preparatoria", "porcentaje": 19.4},
+        {"nivel": "Secundaria", "porcentaje": 18.0},
+        {"nivel": "Profesional", "porcentaje": 17.5},
+        {"nivel": "Primaria", "porcentaje": 12.5},
+        {"nivel": "Otra", "porcentaje": 32.6}
+    ],
+    "escolaridad_hombres": [
+        {"nivel": "Preparatoria", "porcentaje": 19.7},
+        {"nivel": "Secundaria", "porcentaje": 17.1},
+        {"nivel": "Profesional", "porcentaje": 16.3},
+        {"nivel": "Primaria", "porcentaje": 12.0},
+        {"nivel": "Otra", "porcentaje": 34.9}
+    ],
+    "tasa_entidades": [
+        {"entidad": "Campeche", "tasa": 4.89},
+        {"entidad": "Nuevo León", "tasa": 3.52},
+        {"entidad": "Tamaulipas", "tasa": 3.32},
+        {"entidad": "Veracruz", "tasa": 0.91},
+        {"entidad": "Chiapas", "tasa": 1.16},
+        {"entidad": "Estado de México", "tasa": 1.21}
+    ],
+    "relacion_divorcios_matrimonios": [
+        {"entidad": "Campeche", "relacion": 69.7},
+        {"entidad": "Tamaulipas", "relacion": 66.2},
+        {"entidad": "Nuevo León", "relacion": 58.8},
+        {"entidad": "Veracruz", "relacion": 16.6},
+        {"entidad": "Chiapas", "relacion": 19.8},
+        {"entidad": "Jalisco", "relacion": 22.4}
+    ],
+    "condicion_actividad": {
+        "mujeres_trabajan": 51.8,
+        "mujeres_no_trabajan": 48.2,
+        "hombres_trabajan": 67.9,
+        "hombres_no_trabajan": 32.1
+    }
+}
+
+# Asignar los datos de divorcios a la categoría
+INFORMACION_CATEGORIAS["divorcios"]["datos"] = DATOS_DIVORCIOS
