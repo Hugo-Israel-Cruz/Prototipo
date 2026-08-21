@@ -1,0 +1,381 @@
+{% extends "base.html" %}
+
+{% block titulo %}{{ NOMBRE_SITIO }} - Estadística de Divorcios 2024{% endblock %}
+
+{% block contenido %}
+<div class="content-card">
+    <a href="/" style="display:inline-block; margin-bottom:16px; color:#C9A84C; text-decoration:none; font-weight:500;">
+        ← Volver al inicio
+    </a>
+    
+    <h2 style="font-size:1.8rem; color:#1A3A5C;">📊 Estadística de Divorcios 2024</h2>
+    
+    <div style="background:#F8F6F1; padding:20px 24px; border-radius:12px; margin:16px 0; border-left:4px solid #C9A84C;">
+        <p style="color:#4a5a6a; font-size:1.05rem; line-height:1.7;">
+            Información sobre divorcios en México durante el año 2024. Datos del INEGI.
+        </p>
+        <p style="color:#6a7a8a; font-size:0.9rem; margin-top:8px;">
+            <strong>Institución:</strong> Instituto Nacional de Estadística y Geografía (INEGI)
+        </p>
+    </div>
+
+    <!-- Estadísticas rápidas -->
+    <div style="display:grid; grid-template-columns:repeat(4, 1fr); gap:16px; margin-bottom:24px;">
+        <div style="background:#F8F6F1; padding:16px; border-radius:10px; text-align:center;">
+            <span style="font-size:1.8rem; font-weight:700; color:#C9A84C; display:block;">{{ datos.resumen.total_divorcios }}</span>
+            <span style="color:#6a7a8a; font-size:0.8rem;">Total divorcios 2024</span>
+        </div>
+        <div style="background:#F8F6F1; padding:16px; border-radius:10px; text-align:center;">
+            <span style="font-size:1.8rem; font-weight:700; color:#C9A84C; display:block;">{{ datos.resumen.tasa_2024 }}</span>
+            <span style="color:#6a7a8a; font-size:0.8rem;">Tasa por cada 1000 hab.</span>
+        </div>
+        <div style="background:#F8F6F1; padding:16px; border-radius:10px; text-align:center;">
+            <span style="font-size:1.8rem; font-weight:700; color:#C9A84C; display:block;">41.1 / 43.6</span>
+            <span style="color:#6a7a8a; font-size:0.8rem;">Edad promedio (M/H)</span>
+        </div>
+        <div style="background:#F8F6F1; padding:16px; border-radius:10px; text-align:center;">
+            <span style="font-size:1.8rem; font-weight:700; color:#C9A84C; display:block;">67.2%</span>
+            <span style="color:#6a7a8a; font-size:0.8rem;">Divorcio incausado</span>
+        </div>
+    </div>
+
+    <!-- Botones para gráficas -->
+    <div style="display:flex; gap:12px; flex-wrap:wrap; margin-bottom:20px;">
+        <button onclick="mostrarGrafica('causas')" class="btn-grafica" style="background:#C9A84C; color:#FFFFFF; border:none; padding:10px 20px; border-radius:10px; font-weight:600; cursor:pointer; transition:all 0.3s ease;">
+            📊 Causas de divorcio
+        </button>
+        <button onclick="mostrarGrafica('duracion')" class="btn-grafica" style="background:#1A3A5C; color:#FFFFFF; border:none; padding:10px 20px; border-radius:10px; font-weight:600; cursor:pointer; transition:all 0.3s ease;">
+            📊 Duración del matrimonio
+        </button>
+        <button onclick="mostrarGrafica('hijos')" class="btn-grafica" style="background:#C9A84C; color:#FFFFFF; border:none; padding:10px 20px; border-radius:10px; font-weight:600; cursor:pointer; transition:all 0.3s ease;">
+            📊 Hijos menores
+        </button>
+        <button onclick="mostrarGrafica('custodia')" class="btn-grafica" style="background:#1A3A5C; color:#FFFFFF; border:none; padding:10px 20px; border-radius:10px; font-weight:600; cursor:pointer; transition:all 0.3s ease;">
+            📊 Custodia
+        </button>
+        <button onclick="mostrarGrafica('escolaridad')" class="btn-grafica" style="background:#C9A84C; color:#FFFFFF; border:none; padding:10px 20px; border-radius:10px; font-weight:600; cursor:pointer; transition:all 0.3s ease;">
+            📊 Escolaridad
+        </button>
+        <button onclick="mostrarGrafica('tasa_entidades')" class="btn-grafica" style="background:#1A3A5C; color:#FFFFFF; border:none; padding:10px 20px; border-radius:10px; font-weight:600; cursor:pointer; transition:all 0.3s ease;">
+            📊 Tasa por entidad
+        </button>
+    </div>
+
+    <!-- Contenedor de la gráfica -->
+    <div id="contenedorGrafica" style="display: none; background: #FFFFFF; padding: 24px; border-radius: 12px; margin-bottom: 24px; border: 2px solid #E8E3DC;">
+        <canvas id="graficaDivorcios"></canvas>
+        <p id="tituloGrafica" style="text-align:center; color:#6a7a8a; font-size:0.85rem; margin-top:12px;"></p>
+    </div>
+
+    <!-- Datos destacados -->
+    <div style="background:#F8F6F1; padding:20px 24px; border-radius:12px; margin-top:16px;">
+        <h3 style="color:#1A3A5C; font-size:1rem; margin-bottom:8px;">📌 Datos destacados</h3>
+        <ul style="padding-left:20px; color:#4a5a6a; line-height:1.8; font-size:0.95rem;">
+            <li><strong>89.6%</strong> de los divorcios se resolvieron por vía judicial</li>
+            <li><strong>33.8%</strong> de los matrimonios duraron 21 años o más</li>
+            <li><strong>55.1%</strong> de los divorcios no tuvieron hijos menores</li>
+            <li><strong>38.46%</strong> de los casos se otorgó patria potestad a ambas partes</li>
+            <li><strong>51.8%</strong> de las mujeres divorciadas trabajaban al momento del divorcio</li>
+            <li><strong>Campeche</strong> tiene la tasa más alta de divorcios con <strong>4.89</strong> por cada 1000 habitantes</li>
+        </ul>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    const datosDivorcios = {{ datos|tojson }};
+    let graficaActual = null;
+
+    function mostrarGrafica(tipo) {
+        document.getElementById('contenedorGrafica').style.display = 'block';
+        const ctx = document.getElementById('graficaDivorcios').getContext('2d');
+        
+        if (graficaActual) {
+            graficaActual.destroy();
+            graficaActual = null;
+        }
+
+        let config = {};
+        let titulo = '';
+
+        switch(tipo) {
+            case 'causas':
+                titulo = 'Causas de divorcio en México 2024';
+                config = {
+                    type: 'bar',
+                    data: {
+                        labels: datosDivorcios.causas.map(d => d.causa),
+                        datasets: [{
+                            label: 'Porcentaje de divorcios',
+                            data: datosDivorcios.causas.map(d => d.porcentaje),
+                            backgroundColor: ['#C9A84C', '#1A3A5C', '#D4C08A', '#E8E3DC'],
+                            borderColor: ['#C9A84C', '#1A3A5C', '#D4C08A', '#E8E3DC'],
+                            borderWidth: 2,
+                            borderRadius: 6
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        plugins: {
+                            legend: { display: false },
+                            tooltip: {
+                                callbacks: {
+                                    label: function(context) {
+                                        return context.parsed.y + '%';
+                                    }
+                                }
+                            }
+                        },
+                        scales: {
+                            y: {
+                                beginAtZero: true,
+                                max: 80,
+                                ticks: {
+                                    callback: function(value) {
+                                        return value + '%';
+                                    }
+                                }
+                            }
+                        }
+                    }
+                };
+                break;
+
+            case 'duracion':
+                titulo = 'Duración del matrimonio al momento del divorcio';
+                config = {
+                    type: 'bar',
+                    data: {
+                        labels: datosDivorcios.duracion_matrimonio.map(d => d.rango),
+                        datasets: [{
+                            label: 'Porcentaje de divorcios',
+                            data: datosDivorcios.duracion_matrimonio.map(d => d.porcentaje),
+                            backgroundColor: '#C9A84C',
+                            borderColor: '#C9A84C',
+                            borderWidth: 2,
+                            borderRadius: 6
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        plugins: {
+                            legend: { display: false },
+                            tooltip: {
+                                callbacks: {
+                                    label: function(context) {
+                                        return context.parsed.y + '%';
+                                    }
+                                }
+                            }
+                        },
+                        scales: {
+                            y: {
+                                beginAtZero: true,
+                                ticks: {
+                                    callback: function(value) {
+                                        return value + '%';
+                                    }
+                                }
+                            }
+                        }
+                    }
+                };
+                break;
+
+            case 'hijos':
+                titulo = 'Hijos menores en divorcios judiciales 2024';
+                config = {
+                    type: 'bar',
+                    data: {
+                        labels: datosDivorcios.hijos_menores.map(d => d.rango),
+                        datasets: [{
+                            label: 'Porcentaje de divorcios',
+                            data: datosDivorcios.hijos_menores.map(d => d.porcentaje),
+                            backgroundColor: '#1A3A5C',
+                            borderColor: '#1A3A5C',
+                            borderWidth: 2,
+                            borderRadius: 6
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        plugins: {
+                            legend: { display: false },
+                            tooltip: {
+                                callbacks: {
+                                    label: function(context) {
+                                        return context.parsed.y + '%';
+                                    }
+                                }
+                            }
+                        },
+                        scales: {
+                            y: {
+                                beginAtZero: true,
+                                ticks: {
+                                    callback: function(value) {
+                                        return value + '%';
+                                    }
+                                }
+                            }
+                        }
+                    }
+                };
+                break;
+
+            case 'custodia':
+                titulo = 'Custodia de hijas e hijos en divorcios judiciales 2024';
+                config = {
+                    type: 'bar',
+                    data: {
+                        labels: datosDivorcios.custodia.map(d => d.rango),
+                        datasets: [{
+                            label: 'Porcentaje de divorcios',
+                            data: datosDivorcios.custodia.map(d => d.porcentaje),
+                            backgroundColor: ['#C9A84C', '#1A3A5C', '#D4C08A', '#E8E3DC'],
+                            borderColor: ['#C9A84C', '#1A3A5C', '#D4C08A', '#E8E3DC'],
+                            borderWidth: 2,
+                            borderRadius: 6
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        plugins: {
+                            legend: { display: false },
+                            tooltip: {
+                                callbacks: {
+                                    label: function(context) {
+                                        return context.parsed.y + '%';
+                                    }
+                                }
+                            }
+                        },
+                        scales: {
+                            y: {
+                                beginAtZero: true,
+                                ticks: {
+                                    callback: function(value) {
+                                        return value + '%';
+                                    }
+                                }
+                            }
+                        }
+                    }
+                };
+                break;
+
+            case 'escolaridad':
+                titulo = 'Escolaridad de las personas divorciantes 2024';
+                config = {
+                    type: 'bar',
+                    data: {
+                        labels: datosDivorcios.escolaridad_mujeres.map(d => d.nivel),
+                        datasets: [
+                            {
+                                label: 'Mujeres',
+                                data: datosDivorcios.escolaridad_mujeres.map(d => d.porcentaje),
+                                backgroundColor: 'rgba(201, 168, 76, 0.8)',
+                                borderColor: '#C9A84C',
+                                borderWidth: 2,
+                                borderRadius: 4
+                            },
+                            {
+                                label: 'Hombres',
+                                data: datosDivorcios.escolaridad_hombres.map(d => d.porcentaje),
+                                backgroundColor: 'rgba(26, 58, 92, 0.8)',
+                                borderColor: '#1A3A5C',
+                                borderWidth: 2,
+                                borderRadius: 4
+                            }
+                        ]
+                    },
+                    options: {
+                        responsive: true,
+                        plugins: {
+                            legend: {
+                                position: 'top',
+                                labels: { font: { family: 'Inter', size: 12 } }
+                            },
+                            tooltip: {
+                                callbacks: {
+                                    label: function(context) {
+                                        return context.dataset.label + ': ' + context.parsed.y + '%';
+                                    }
+                                }
+                            }
+                        },
+                        scales: {
+                            y: {
+                                beginAtZero: true,
+                                ticks: {
+                                    callback: function(value) {
+                                        return value + '%';
+                                    }
+                                }
+                            }
+                        }
+                    }
+                };
+                break;
+
+            case 'tasa_entidades':
+                titulo = 'Tasa de divorcios por entidad federativa 2024 (por cada 1000 hab.)';
+                config = {
+                    type: 'bar',
+                    data: {
+                        labels: datosDivorcios.tasa_entidades.map(d => d.entidad),
+                        datasets: [{
+                            label: 'Tasa por cada 1000 habitantes',
+                            data: datosDivorcios.tasa_entidades.map(d => d.tasa),
+                            backgroundColor: datosDivorcios.tasa_entidades.map(d => d.tasa > 3 ? '#C9A84C' : '#1A3A5C'),
+                            borderColor: datosDivorcios.tasa_entidades.map(d => d.tasa > 3 ? '#C9A84C' : '#1A3A5C'),
+                            borderWidth: 2,
+                            borderRadius: 6
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        plugins: {
+                            legend: { display: false },
+                            tooltip: {
+                                callbacks: {
+                                    label: function(context) {
+                                        return 'Tasa: ' + context.parsed.y;
+                                    }
+                                }
+                            }
+                        },
+                        scales: {
+                            y: {
+                                beginAtZero: true,
+                                ticks: {
+                                    callback: function(value) {
+                                        return value.toFixed(1);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                };
+                break;
+        }
+
+        graficaActual = new Chart(ctx, config);
+        document.getElementById('tituloGrafica').textContent = titulo;
+    }
+</script>
+
+<style>
+    .btn-grafica:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 30px rgba(0,0,0,0.15);
+    }
+    .btn-grafica:active {
+        transform: translateY(0);
+    }
+    #graficaDivorcios {
+        max-height: 400px;
+        width: 100% !important;
+    }
+</style>
+{% endblock %}

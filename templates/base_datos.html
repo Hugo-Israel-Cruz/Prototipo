@@ -20,59 +20,20 @@
         </div>
     {% endif %}
     
-    <!-- ============================================ -->
-    <!-- BOTONES PARA GENERAR Y OCULTAR GRÁFICA       -->
-    <!-- ============================================ -->
     <div style="display:flex; gap:12px; flex-wrap:wrap; margin-bottom:20px;">
-        <button onclick="mostrarGrafica()" id="btnGrafica" style="
-            background: #C9A84C;
-            color: #FFFFFF;
-            border: none;
-            padding: 12px 28px;
-            border-radius: 12px;
-            font-weight: 600;
-            font-family: 'Inter', sans-serif;
-            font-size: 0.95rem;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-        ">
+        <button onclick="mostrarGrafica()" id="btnGrafica" style="background:#C9A84C; color:#FFFFFF; border:none; padding:12px 28px; border-radius:12px; font-weight:600; font-family:'Inter',sans-serif; font-size:0.95rem; cursor:pointer; transition:all 0.3s ease; display:inline-flex; align-items:center; gap:10px;">
             📊 Generar gráfica de barras
         </button>
-        <button onclick="ocultarGrafica()" id="btnOcultarGrafica" style="
-            background: #e74c3c;
-            color: #FFFFFF;
-            border: none;
-            padding: 12px 28px;
-            border-radius: 12px;
-            font-weight: 600;
-            font-family: 'Inter', sans-serif;
-            font-size: 0.95rem;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            display: none;
-            align-items: center;
-            gap: 10px;
-        ">
+        <button onclick="ocultarGrafica()" id="btnOcultarGrafica" style="background:#e74c3c; color:#FFFFFF; border:none; padding:12px 28px; border-radius:12px; font-weight:600; font-family:'Inter',sans-serif; font-size:0.95rem; cursor:pointer; transition:all 0.3s ease; display:none; align-items:center; gap:10px;">
             ❌ Ocultar gráfica
         </button>
     </div>
 
-    <!-- ============================================ -->
-    <!-- CONTENEDOR DE LA GRÁFICA                     -->
-    <!-- ============================================ -->
-    <div id="contenedorGrafica" style="display: none; background: #FFFFFF; padding: 24px; border-radius: 12px; margin-bottom: 24px; border: 2px solid #E8E3DC;">
+    <div id="contenedorGrafica" style="display:none; background:#FFFFFF; padding:24px; border-radius:12px; margin-bottom:24px; border:2px solid #E8E3DC;">
         <canvas id="graficaPensiones"></canvas>
-        <p style="text-align:center; color:#6a7a8a; font-size:0.85rem; margin-top:12px;">
-            Pensión promedio por mandato y sexo (MXN)
-        </p>
+        <p style="text-align:center; color:#6a7a8a; font-size:0.85rem; margin-top:12px;">Pensión promedio por mandato y sexo (MXN)</p>
     </div>
     
-    <!-- ============================================ -->
-    <!-- TABLA DE DATOS                               -->
-    <!-- ============================================ -->
     <p style="color:#6a7a8a; margin-bottom:16px;">
         Mostrando <strong>{{ datos|length }}</strong> registros
     </p>
@@ -107,26 +68,17 @@
     </div>
 </div>
 
-<!-- ============================================ -->
-<!-- CHART.JS - Librería para gráficas           -->
-<!-- ============================================ -->
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
 <script>
-    // ============================================
-    // DATOS DE LA BASE DE DATOS (desde Python)
-    // ============================================
     const datosPensiones = {{ datos|tojson }};
-    
-    // Variable global para la gráfica
     let miGrafica = null;
-    
-    // ============================================
-    // FUNCIÓN PARA PROCESAR DATOS
-    // ============================================
-    function procesarDatos() {
-        const mandatos = {};
+
+    function mostrarGrafica() {
+        document.getElementById('contenedorGrafica').style.display = 'block';
+        document.getElementById('btnGrafica').style.display = 'none';
+        document.getElementById('btnOcultarGrafica').style.display = 'inline-flex';
         
+        const mandatos = {};
         datosPensiones.forEach(item => {
             const mandato = item.mandato_encargo || 'Desconocido';
             const sexo = item.sexo || 'No especificado';
@@ -135,12 +87,7 @@
             const pensionPromedio = (pensionMax + pensionMin) / 2;
             
             if (!mandatos[mandato]) {
-                mandatos[mandato] = { 
-                    mujer: 0, 
-                    hombre: 0, 
-                    mujerCount: 0, 
-                    hombreCount: 0 
-                };
+                mandatos[mandato] = { mujer: 0, hombre: 0, mujerCount: 0, hombreCount: 0 };
             }
             
             if (sexo === 'Mujer') {
@@ -164,38 +111,14 @@
             dataHombre.push(promHombre);
         }
         
-        return { labels, dataMujer, dataHombre };
-    }
-    
-    // ============================================
-    // FUNCIÓN PARA MOSTRAR LA GRÁFICA
-    // ============================================
-    function mostrarGrafica() {
-        // Mostrar contenedor y ocultar botones
-        document.getElementById('contenedorGrafica').style.display = 'block';
-        document.getElementById('btnGrafica').style.display = 'none';
-        document.getElementById('btnOcultarGrafica').style.display = 'inline-flex';
-        
-        // Procesar datos
-        const { labels, dataMujer, dataHombre } = procesarDatos();
-        
-        // Si no hay datos, mostrar mensaje
         if (labels.length === 0) {
-            document.getElementById('contenedorGrafica').innerHTML = 
-                '<p style="text-align:center; color:#e74c3c; padding:40px;">No hay datos suficientes para generar la gráfica</p>';
+            document.getElementById('contenedorGrafica').innerHTML = '<p style="text-align:center; color:#e74c3c; padding:40px;">No hay datos suficientes para generar la gráfica</p>';
             return;
         }
         
-        // Obtener el contexto del canvas
         const ctx = document.getElementById('graficaPensiones').getContext('2d');
+        if (miGrafica) { miGrafica.destroy(); miGrafica = null; }
         
-        // Destruir gráfica anterior si existe
-        if (miGrafica) {
-            miGrafica.destroy();
-            miGrafica = null;
-        }
-        
-        // Crear nueva gráfica de barras
         miGrafica = new Chart(ctx, {
             type: 'bar',
             data: {
@@ -227,24 +150,13 @@
                 plugins: {
                     legend: {
                         position: 'top',
-                        labels: {
-                            font: {
-                                family: 'Inter',
-                                size: 12,
-                                weight: '500'
-                            },
-                            color: '#1A3A5C',
-                            usePointStyle: true,
-                            padding: 20
-                        }
+                        labels: { font: { family: 'Inter', size: 12, weight: '500' }, color: '#1A3A5C', usePointStyle: true, padding: 20 }
                     },
                     tooltip: {
                         callbacks: {
                             label: function(context) {
                                 let label = context.dataset.label || '';
-                                if (label) {
-                                    label += ': ';
-                                }
+                                if (label) label += ': ';
                                 if (context.parsed.y !== null && context.parsed.y !== undefined) {
                                     label += '$' + context.parsed.y.toLocaleString('es-MX');
                                 }
@@ -258,66 +170,31 @@
                         beginAtZero: true,
                         ticks: {
                             callback: function(value) {
-                                if (value >= 1000) {
-                                    return '$' + (value / 1000).toFixed(0) + 'k';
-                                }
+                                if (value >= 1000) return '$' + (value / 1000).toFixed(0) + 'k';
                                 return '$' + value.toLocaleString('es-MX');
                             },
-                            font: {
-                                family: 'Inter',
-                                size: 10
-                            }
+                            font: { family: 'Inter', size: 10 }
                         },
-                        grid: {
-                            color: 'rgba(0,0,0,0.06)'
-                        }
+                        grid: { color: 'rgba(0,0,0,0.06)' }
                     },
                     x: {
-                        grid: {
-                            display: false
-                        },
-                        ticks: {
-                            font: {
-                                family: 'Inter',
-                                size: 10,
-                                weight: '500'
-                            },
-                            maxRotation: 45,
-                            minRotation: 30
-                        }
+                        grid: { display: false },
+                        ticks: { font: { family: 'Inter', size: 10, weight: '500' }, maxRotation: 45, minRotation: 30 }
                     }
                 }
             }
         });
     }
     
-    // ============================================
-    // FUNCIÓN PARA OCULTAR LA GRÁFICA
-    // ============================================
     function ocultarGrafica() {
         document.getElementById('contenedorGrafica').style.display = 'none';
         document.getElementById('btnGrafica').style.display = 'inline-flex';
         document.getElementById('btnOcultarGrafica').style.display = 'none';
-        
-        // Destruir la gráfica para liberar memoria
-        if (miGrafica) {
-            miGrafica.destroy();
-            miGrafica = null;
-        }
+        if (miGrafica) { miGrafica.destroy(); miGrafica = null; }
     }
 </script>
 
 <style>
-    .btn-grafica:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 8px 30px rgba(201, 168, 76, 0.3);
-    }
-    .btn-grafica:active {
-        transform: translateY(0);
-    }
-    #graficaPensiones {
-        max-height: 400px;
-        width: 100% !important;
-    }
+    #graficaPensiones { max-height: 400px; width: 100% !important; }
 </style>
 {% endblock %}
